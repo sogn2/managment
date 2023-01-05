@@ -3,32 +3,31 @@
         "http://mybatis.org/schema/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.bitstudy.app.dao.BoardMapper">
+<mapper namespace="com.booking.app.dao.BookingMapper">
 
 <!--    게시글 등록-->
-    <insert id="insert" parameterType="BoardDto">
-        INSERT INTO board
-        (title, content, writer)
-        VALUES
-        (#{title}, #{content}, #{writer})
-    </insert>
+    <insert id="insert" parameterType="BookingDto">
+        INSERT INTO customer (customerName,customerPhone) values ("이름","010");
+        INSERT INTO booking(customerNumber,companyNumber,personnel,Requirements,reservationDate,visitStatus) VALUES (New.customerNumber,1,4,"abc","2023-01-06 05:43",'N');
 
-<!--    전체 게시글 개수 구하기-->
+    </insert>
+<!--
+&lt;!&ndash;    전체 게시글 개수 구하기&ndash;&gt;
     <select id="count" resultType="int">
         SELECT count(*) FROM board
     </select>
 
-<!--    특정 게시글 한개 가져오기-->
+&lt;!&ndash;    특정 게시글 한개 가져오기&ndash;&gt;
     <select id="select" parameterType="int" resultType="BoardDto">
         SELECT * from board where bno = #{bno}
     </select>
 
-<!--    게시글 전체 가져오기 (정렬: 최근 게시물이 위로)-->
+&lt;!&ndash;    게시글 전체 가져오기 (정렬: 최근 게시물이 위로)&ndash;&gt;
     <select id="selectAll" resultType="BoardDto">
         select * from board order by reg_date desc, bno desc
     </select>
 
-<!--    게시글 전체 가져오기(특정 번호부터 몇개)-->
+&lt;!&ndash;    게시글 전체 가져오기(특정 번호부터 몇개)&ndash;&gt;
     <select id="selectPage" parameterType="map" resultType="BoardDto">
         select * from board order by reg_date desc, bno desc
         limit #{offset}, #{pageSize}
@@ -39,23 +38,23 @@
 
 
 
-    <!-- 요 아래 <include> 구문에서 쓰일거-->
+    &lt;!&ndash; 요 아래 <include> 구문에서 쓰일거&ndash;&gt;
     <sql id="selectFromBoard">
         SELECT bno, title, content, writer, view_cnt, comment_cnt, reg_date
         FROM board
     </sql>
 
-<!--    <select id="select" parameterType="int" resultType="BoardDto">-->
-<!--        <include refid="selectFromBoard" />-->
-<!--        WHERE bno = #{bno}-->
-<!--    </select>-->
+&lt;!&ndash;    <select id="select" parameterType="int" resultType="BoardDto">&ndash;&gt;
+&lt;!&ndash;        <include refid="selectFromBoard" />&ndash;&gt;
+&lt;!&ndash;        WHERE bno = #{bno}&ndash;&gt;
+&lt;!&ndash;    </select>&ndash;&gt;
 
-    <!-- 검색시 필요 - SearchCondition 도 mybatis-config.xml 에 가서 별칭 만들자 -->
+    &lt;!&ndash; 검색시 필요 - SearchCondition 도 mybatis-config.xml 에 가서 별칭 만들자 &ndash;&gt;
     <select id="searchSelectPage" parameterType="SearchCondition"  resultType="BoardDto">
-<!--        select * from board-->
-<!--        where true and title like concat('%', #{keyword},'%')-->
-<!--        order by reg_date desc, bno desc-->
-<!--        limit #{offset}, #{pageSize}-->
+&lt;!&ndash;        select * from board&ndash;&gt;
+&lt;!&ndash;        where true and title like concat('%', #{keyword},'%')&ndash;&gt;
+&lt;!&ndash;        order by reg_date desc, bno desc&ndash;&gt;
+&lt;!&ndash;        limit #{offset}, #{pageSize}&ndash;&gt;
 
         select * from board
         where true
@@ -76,7 +75,7 @@
 
     </select>
 
-    <!--검색 결과가 몇개 있는지 알아야 paging 할 수 있으니께..-->
+    &lt;!&ndash;검색 결과가 몇개 있는지 알아야 paging 할 수 있으니께..&ndash;&gt;
     <select id="searchSelectCount" parameterType="SearchCondition"  resultType="int">
         select count(*)
         from board
@@ -95,7 +94,7 @@
         </choose>
     </select>
 
-<!--    전체 다 지우기-->
+&lt;!&ndash;    전체 다 지우기&ndash;&gt;
     <delete id="deleteAll">
         DELETE FROM board
     </delete>
@@ -104,12 +103,12 @@
         DELETE FROM board WHERE bno = #{bno} and writer = #{writer}
     </delete>
 
-    <!--    만약 관리자용으로 지우는거 따로 만든다면 이렇게 하기 -->
+    &lt;!&ndash;    만약 관리자용으로 지우는거 따로 만든다면 이렇게 하기 &ndash;&gt;
     <delete id="deleteForAdmin" parameterType="map">
         DELETE FROM board WHERE bno = #{bno}
     </delete>
 
-<!--    게시글 수정-->
+&lt;!&ndash;    게시글 수정&ndash;&gt;
     <update id="update" parameterType="BoardDto">
         UPDATE board
         SET   title = #{title}
@@ -118,18 +117,18 @@
         WHERE bno = #{bno} and writer = #{writer}
     </update>
 
-<!--    댓글 개수 증가-->
+&lt;!&ndash;    댓글 개수 증가&ndash;&gt;
     <update id="updateCommentCnt" parameterType="map">
         UPDATE board
-        SET   comment_cnt = comment_cnt + #{cnt} <!--  +1 들어올수도 있고, -1 들어올수도 있다.  -->
+        SET   comment_cnt = comment_cnt + #{cnt} &lt;!&ndash;  +1 들어올수도 있고, -1 들어올수도 있다.  &ndash;&gt;
         WHERE bno = #{bno}
     </update>
 
-<!--    조회수 올리는 쿼리-->
+&lt;!&ndash;    조회수 올리는 쿼리&ndash;&gt;
     <update id="increaseViewCnt" parameterType="int">
         UPDATE board
         SET   view_cnt = view_cnt + 1
         WHERE bno = #{bno}
-    </update>
+    </update>-->
 
 </mapper>

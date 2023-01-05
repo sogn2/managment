@@ -12,23 +12,22 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf8"></property>
-<!--		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>-->
-<!--		<property name="url" value="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf8"></property>-->
+		<property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/managment?useUnicode=true&amp;characterEncoding=utf8"></property>
 		<property name="username" value="bitstudy"></property>
 		<property name="password" value="1234"></property>
+
 	</bean>
 
 	<!-- SqlSessionFactory 설정 : 이거 하면 mybatis-config.xml 랑 mapper/*Mapper.xml 파일들 만들어야함 -->
-<!--	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
-		<property name="configLocation"  value="classpath:mybatis-config.xml"/> &lt;!&ndash; mybatis 설정파일 위치 (main > resource 폴더)&ndash;&gt;
-		<property name="mapperLocations" value="classpath:mapper/*Mapper.xml"/> &lt;!&ndash;sql 담긴 파일들 위치랑 이름 패턴 지정한 파일&ndash;&gt;
+		<property name="configLocation"  value="classpath:mybatis-config.xml"/>
+		<property name="mapperLocations" value="classpath:mapper/*Mapper.xml"/>
 	</bean>
 
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory"/>
-	</bean>-->
+	</bean>
 
 	<context:component-scan base-package="com.booking.app" />
 </beans>

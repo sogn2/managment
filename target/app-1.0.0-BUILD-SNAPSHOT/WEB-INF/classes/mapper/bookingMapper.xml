@@ -5,12 +5,22 @@
 
 <mapper namespace="com.booking.app.dao.BookingMapper">
 
-<!--    게시글 등록-->
-    <insert id="insert" parameterType="BookingDto">
-        INSERT INTO customer (customerName,customerPhone) values ("이름","010");
-        INSERT INTO booking(customerNumber,companyNumber,personnel,Requirements,reservationDate,visitStatus) VALUES (New.customerNumber,1,4,"abc","2023-01-06 05:43",'N');
+    <!--  고객정보 등록  -->
+    <insert id="customerInsert" parameterType="CustomerDto">
+        INSERT INTO customer (customerName,customerPhone) values (#{customerName},#{customerPhone});
+    </insert>
+    <!--  예약 등록  -->
+    <insert id="bookingInsert" parameterType="BookingDto">
+<!--       <selectKey resultType="int" keyProperty="customerNumber" order="AFTER">-->
+<!--            SELECT LAST_INSERT_ID()-->
+<!--        </selectKey>-->
+
+               INSERT INTO booking (customerNumber,companyNumber,personnel,Requirements,reservationDate,visitStatus) VALUES ((select max(customerNumber2) from customer)  ,#{companyNumber},#{personnel},#{Requirements},#{reservationDate},#{visitStatus});
 
     </insert>
+
+    <select id="bookingList" resultType="map" parameterType="map">
+        select * from booking  a inner JOIN customer  b on a.customerNumber = b.customerNumber2;    </select>
 <!--
 &lt;!&ndash;    전체 게시글 개수 구하기&ndash;&gt;
     <select id="count" resultType="int">

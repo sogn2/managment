@@ -6,6 +6,9 @@ import com.booking.app.domain.CustomerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class BookingService {
     @Autowired
@@ -17,5 +20,8 @@ public class BookingService {
     /* 예약고객 정보등록 */
     public  int customerInsert(CustomerDto customerDto) throws Exception {
         return bookingDao.CustomerInsert(customerDto);
+    }
+    public List<BookingDto> bookingList(Map map) throws Exception {
+        return bookingDao.bookingList(map);
     }
 }

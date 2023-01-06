@@ -14,9 +14,13 @@
 <!--       <selectKey resultType="int" keyProperty="customerNumber" order="AFTER">-->
 <!--            SELECT LAST_INSERT_ID()-->
 <!--        </selectKey>-->
-               INSERT INTO booking (customerNumber,companyNumber,personnel,Requirements,reservationDate,visitStatus) VALUES ((select max(customerNumber) from customer)  ,#{companyNumber},#{personnel},#{Requirements},#{reservationDate},#{visitStatus});
+
+               INSERT INTO booking (customerNumber,companyNumber,personnel,Requirements,reservationDate,visitStatus) VALUES ((select max(customerNumber2) from customer)  ,#{companyNumber},#{personnel},#{Requirements},#{reservationDate},#{visitStatus});
 
     </insert>
+
+    <select id="bookingList" resultType="map" parameterType="map">
+        select * from booking  a inner JOIN customer  b on a.customerNumber = b.customerNumber2;    </select>
 <!--
 &lt;!&ndash;    전체 게시글 개수 구하기&ndash;&gt;
     <select id="count" resultType="int">

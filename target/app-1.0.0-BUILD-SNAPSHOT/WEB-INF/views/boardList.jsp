@@ -6,166 +6,446 @@
 <c:set var="logInOutTxt" value="${ sessionScope.id==null ? 'login':'logout' }" />
 
 <c:set var="userId" value="${ pageContext.request.getSession(false).getAttribute('id')==null ? '':pageContext.request.getSession(false).getAttribute('id') }" />
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시판 페이지</title>
-    <link rel="stylesheet" href="<c:url value='/css/common.css'/> ">
-    <link rel="stylesheet" href="<c:url value='/css/h_f.css'/> ">
-    <link rel="stylesheet" href="<c:url value='/css/boardList.css'/> ">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/x-icon" href="/admin/img/favicon.ico" />
 
-    <!-- https://code.jquery.com/jquery-1.12.4.min.js 부분에 마우스 가져다 대면 라이브러리 다운로드 할건지 물어봄.
-     하게되면 jquery 다운받아서 좀 더 빠르게 사용할수 있음. 하면 External Libraries 폴더에 jquery 라이브러리 생김 -->
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-</head>
-<body>
-<c:forEach  items="${list}" var="list">
-${list.reservationNumber}
-    ${list.customerNumber}
-    ${list.customerPhone}
-    ${list.customerName}
-</c:forEach>
-<div class="header">
-    <div class="content_area">
-        <div id="logo">
-            <a href="<c:url value='/'/>">BITSTUDY</a>
-        </div>
-        <ul class="menu">
-            <li class="item">
-                <a href="<c:url value='/'/>">Home</a>
-            </li>
-            <li class="item">
-                <a href="<c:url value='/board/list'/>">Board</a>
-            </li>
-            <%-- <li class="item">
-               <a href="<c:url value='/login/login'/>">login</a>
-            </li>  --%>
-            <li class="item">
-                <a href="<c:url value='${logInOutLink} '/>">${logInOutTxt}</a>
-            </li>
+    <title>PT Pass Admin - Manage passes</title>
 
-            <c:choose>
-                <c:when test="${userId==null}">
-                    <li class="item">
-                        <a href="<c:url value='/register/add'/>">Sign in</a>
-                    </li>
-                </c:when>
+    <!-- Custom fonts for this template-->
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <style>
+        .search_area{
+            display: flex;
+            gap: 30px;
+        }
+        .search_bar{
+            width: 400px;
+        }
+    </style>
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
-                <c:otherwise>
-                    <li class="item">
-                            ${userId} 님
-                    </li>
-                </c:otherwise>
-            </c:choose>
-        </ul>
-    </div>
-</div>
-<script>
+<body id="page-top">
+<!-- Page Wrapper -->
+<div id="wrapper">
 
-    let msg = "${param.msg}" // 모델 사용할때. // get 방식일떈 param. 을 붙여야함
-    //let msg = "${msg}" // RedirectAttributes 사용할떄 // get 방식일떈 param. 을 붙여야함
-    // alert(1);
-    // alert(msg);
-    // alert(2);
-    if(msg=="del_success") { alert("삭제되었습니다.") }
+    <!-- slider var -->
 
-    // Ex10 글쓰기 파일에서 넘어오는거 (여기서 실패 메세지는 필요 없음. 어짜피 board.jsp 로 가버릴테니까)
-    if(msg=="WRT_OK") { alert("글쓰기 성공")}
-    // Ex10 에서 넘어오는거
-    if(msg=="NO_LIST") { alert("해당 게시물이 존재하지 않습니다..")}
-</script>
-
-
-<div class="main">
-    <div class="content_area">
-        <h2>게시판 리스트</h2>
-
-        <div class="search_area" name="search_area">
-            <select id="sel_filter">
-                <option value="TW" ${param.option=="TW"?"selected":""} >제목+내용</option>
-                <option value="T" ${param.option=="T"?"selected":""} >제목만</option>
-                <option value="W" ${param.option=="W"?"selected":""} >작성자</option>
-            </select>
-
-<%--            <form id="search_box">--%>
-            <div id="search_box">
-                <input type="text" id="txt_search" name="txt_search" placeholder="검색어를 입력하세요" value="${param.keyword}">
-                <input type="button" value="검색" id="btn_search" name="btn_search">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
+            <div class="sidebar-brand-icon">
+                <i class="fas fa-running"></i>
             </div>
-<%--            </form>--%>
-            <div id="btn_write" onclick="location.href='<c:url value="/board/write"/>'">글쓰기</div>
+            <div class="sidebar-brand-text mx-3">Pass Admin</div>
+        </a>
 
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item">
+            <a class="nav-link" href="/admin">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            your gym
         </div>
 
-<%--        검색 결과: ${list.size()}개--%>
-    <%--<c:if test="${list.size() == 0}">
-    <c:if test="${empty list}">
-        <h1>일치하는 결과가 없습니다.</h1>
-    </c:if>--%>
-        <c:choose>
-            <c:when test="${empty list}">
-                <h1>일치하는 결과가 없습니다.</h1>
-            </c:when>
-            <c:otherwise>
-                <table>
-                    <thead>
-                        <tr>
-                            <th class="no">번호</th>
-                            <th class="title">제목</th>
-                            <th class="writer">이름</th>
-                            <th class="regdate">등록일</th>
-                            <th class="viewcnt">조회수</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="boardDto" items="${list}">
-                            <tr class="boardBody">
-                                <td class="no">${boardDto.bno}</td>
-                                <td class="title"><a href="<c:url value="/board/read?bno=${boardDto.bno}&page=${ph.page}&pageSize=${ph.pageSize}"/>">${boardDto.title}</a></td>
-                                <td class="writer">${boardDto.writer}</td>
-                                <td class="regdate"><fmt:formatDate value="${boardDto.reg_date}" pattern="yyyy-MM-dd" type="date"/></td>
-                                <td class="viewcnt">${boardDto.view_cnt}</td>
-                            </tr>
-                        </c:forEach>
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/bulk-pass">
+                <i class="fas fa-fw fa-dumbbell"></i>
+                <span>Pass</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-fw fa-user"></i>
+                <span>Users</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-fw fa-users"></i>
+                <span>User Groups</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Statistics</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Notice</span></a>
+        </li>
 
-                    </tbody>
-                </table>
-            </c:otherwise>
-        </c:choose>
-        <div class="pagination">
-            <c:if test="${ph.showPrev}">
-                <a href="<c:url value='/board/list?page=${ph.beginPage-1}&pageSize=${ph.pageSize}' />" class="beginPage">[이전]</a>
-            </c:if>
-            <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
-                <a href="<c:url value='/board/list?page=${i}&pageSize=${ph.pageSize}' /> " class="page ${i==ph.page?"pageActive":""}"> ${i}</a>
-            </c:forEach>
-            <c:if test="${ph.showNext}">
-                <a href="<c:url value='/board/list?page=${ph.endPage+1}&pageSize=${ph.pageSize}' />" class="endPage">[다음]</a>
-            </c:if>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Settings</span></a>
+        </li>
+
+        <hr class="sidebar-divider d-none d-md-block">
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
+
+    </ul>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- top var -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <!-- Topbar Search -->
+                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <div class="input-group">
+
+                        <input type="text" class="form-control bg-light border-0 small" value="" placeholder="예약일">
+
+
+                        <input type="text" class="form-control bg-light border-0 small" value="" placeholder="이름">
+
+                        <input type="text" class="form-control bg-light border-0 small" value="" placeholder="휴대폰">
+                        <!-- <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                               aria-label="Search" aria-describedby="basic-addon2"> -->
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
+
+                    <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                    <li class="nav-item dropdown no-arrow d-sm-none">
+                        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <!-- Dropdown - Messages -->
+                        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                             aria-labelledby="searchDropdown">
+                            <form class="form-inline mr-auto w-100 navbar-search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control bg-light border-0 small"
+                                           placeholder="Search for..." aria-label="Search"
+                                           aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button">
+                                            <i class="fas fa-search fa-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+
+                    <!-- Nav Item - Alerts -->
+                    <li class="nav-item dropdown no-arrow mx-1">
+                        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-bell fa-fw"></i>
+                            <!-- Counter - Alerts -->
+                            <span class="badge badge-danger badge-counter">3+</span>
+                        </a>
+                        <!-- Dropdown - Alerts -->
+                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                             aria-labelledby="alertsDropdown">
+                            <h6 class="dropdown-header">
+                                Alerts Center
+                            </h6>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <div class="mr-3">
+                                    <div class="icon-circle bg-primary">
+                                        <i class="fas fa-file-alt text-white"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="small text-gray-500">December 12, 2019</div>
+                                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <div class="mr-3">
+                                    <div class="icon-circle bg-success">
+                                        <i class="fas fa-donate text-white"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="small text-gray-500">December 7, 2019</div>
+                                    $290.29 has been deposited into your account!
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <div class="mr-3">
+                                    <div class="icon-circle bg-warning">
+                                        <i class="fas fa-exclamation-triangle text-white"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="small text-gray-500">December 2, 2019</div>
+                                    Spending Alert: We've noticed unusually high spending for your account.
+                                </div>
+                            </a>
+                            <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                        </div>
+                    </li>
+
+                    <!-- Nav Item - Messages -->
+                    <li class="nav-item dropdown no-arrow mx-1">
+                        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-envelope fa-fw"></i>
+                            <!-- Counter - Messages -->
+                            <span class="badge badge-danger badge-counter">7</span>
+                        </a>
+                        <!-- Dropdown - Messages -->
+                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                             aria-labelledby="messagesDropdown">
+                            <h6 class="dropdown-header">
+                                Message Center
+                            </h6>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <div class="dropdown-list-image mr-3">
+                                    <img class="rounded-circle" src="/admin/img/undraw_profile_1.svg"
+                                         alt="...">
+                                    <div class="status-indicator bg-success"></div>
+                                </div>
+                                <div class="font-weight-bold">
+                                    <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                        problem I've been having.</div>
+                                    <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <div class="dropdown-list-image mr-3">
+                                    <img class="rounded-circle" src="/admin/img/undraw_profile_2.svg"
+                                         alt="...">
+                                    <div class="status-indicator"></div>
+                                </div>
+                                <div>
+                                    <div class="text-truncate">I have the photos that you ordered last month, how
+                                        would you like them sent to you?</div>
+                                    <div class="small text-gray-500">Jae Chun · 1d</div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <div class="dropdown-list-image mr-3">
+                                    <img class="rounded-circle" src="/admin/img/undraw_profile_3.svg"
+                                         alt="...">
+                                    <div class="status-indicator bg-warning"></div>
+                                </div>
+                                <div>
+                                    <div class="text-truncate">Last month's report looks great, I am very happy with
+                                        the progress so far, keep up the good work!</div>
+                                    <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <div class="dropdown-list-image mr-3">
+                                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                         alt="...">
+                                    <div class="status-indicator bg-success"></div>
+                                </div>
+                                <div>
+                                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                        told me that people say this to all dogs, even if they aren't good...</div>
+                                    <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                        </div>
+                    </li>
+
+                    <div class="topbar-divider d-none d-sm-block"></div>
+
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">김지수</span>
+                            <img class="img-profile rounded-circle"
+                                 src="/admin/img/undraw_profile_3.svg">
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                             aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Profile
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Settings
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Activity Log
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <!-- Page Heading -->
+                <h1 class="h3 mb-1 text-gray-800">Passes</h1>
+                <p class="mb-4">다수의 회원들에게 이용권을 일괄 지급을 예약할 수 있습니다. 이용권은 시작 시간 1일 전 회원들에게 지급됩니다.</p>
+                <!-- Content Row -->
+                <div class="row">
+
+                    <!-- Grow In Utility -->
+                    <!--
+                    <div class="col-lg-8 mb-5">
+                     <div class="card position-relative">
+                         <div class="card-header py-3">
+                             <h6 class="m-0 font-weight-bold text-primary">예약 조회</h6>
+                         </div>
+                         <div class="card-body">
+
+                               <div class="search_area">
+
+                                  <input type="text" class="form-control" value="" placeholder="예약일">
+                               </div>
+
+                                 <input type="text" class="form-control" value="" placeholder="이름">
+                               </div>
+
+                                 <input type="text" class="form-control" value="" placeholder="휴대폰">
+                               </div>
+
+                                 <input class="btn btn-primary" type="submit" value="조회">
+
+                               </div>
+
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+  -->
+                    <!-- Grow In Utility -->
+                    <div class="col-lg-8">
+                        <div class="card position-relative">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">예약 목록</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                        <tr>
+                                            <th>예약번호</th>
+                                            <th>예약일</th>
+                                            <th>이름</th>
+                                            <th>휴대폰</th>
+                                            <th>인원</th>
+                                            <th>요구사항</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>2022-01-10</td>
+                                            <td>이름</td>
+                                            <td>휴대폰</td>
+                                            <td>인원</td>
+                                            <td>요구사항</td>
+                                            <td><input type="button"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card position-relative full-height">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">이용권 일괄 지급 등록</h6>
+                            </div>
+                            <div class="card-body">
+                                <form action="#" th:action="@{/admin/bulk-pass}" th:object="${request}" method="post">
+                                    <div class="small mb-1">고객 이름</div>
+                                    <input class="form-control mb-2" type="text" placeholder="이름" />
+                                    <div class="small mb-1">휴대폰번호</div>
+                                    <input class="form-control mb-2" type="text" placeholder="010-0000-0000" />
+                                    <div class="small mb-1">예약 일시</div>
+                                    <input class="form-control mb-2" type="text" placeholder="2022-09-01 00:00" />
+                                    <div class="small mb-1">인원수</div>
+                                    <input class="form-control mb-2" type="text" placeholder="인원수" />
+                                    <div class="small mb-1">요구사항</div>
+                                    <input class="form-control mb-2" type="text" placeholder="요구사항" />
+                                    <div class="d-flex align-items-end flex-column">
+                                        <input class="btn btn-primary" type="submit" value="+ 등록">
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fade In Utility -->
+
     </div>
 
-    <script>
-        $(document).ready(function(){
-            $('#btn_search').on("click", function(){
-                <%--alert("<c:url value='/board/list'/>?page=${page}&pageSize=${pageSize}");--%>
-
-                location.href = "<c:url value='/board/search'/>?page=1&pageSize=${pageSize}&option="+$('#sel_filter').val()+"&keyword="+$('#txt_search').val().trim();
-
-                /* keyword 와 option 은 SearchCondition 의 이름과 맞춰줘야 한다. */
-            })
-            $('#txt_search').on('keydown', function(e){
-                if(e.keyCode==13 && $('#btn_search').val().trim().length > 0) {
-                    $('#btn_search').trigger('click');
-                }
-            });
-        })
-
-    </script>
 </div>
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/js/sb-admin-2.min.js"></script>
+
 </body>
 </html>

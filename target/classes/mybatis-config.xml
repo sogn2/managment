@@ -9,7 +9,7 @@
 
         <typeAlias alias="BookingDto" type="com.booking.app.domain.BookingDto"/>
         <typeAlias alias="CustomerDto" type="com.booking.app.domain.CustomerDto"/>
-
+        <typeAlias alias="SearchConditionDto" type="com.booking.app.domain.SearchConditionDto"/>
 
 
     </typeAliases>

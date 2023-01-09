@@ -9,6 +9,10 @@ public class CustomerDto {
     public CustomerDto() {
     }
 
+    public CustomerDto(String customerName) {
+        this.customerName = customerName;
+    }
+
     public CustomerDto(String customerName, String customerPhone) {
         this.customerName = customerName;
         this.customerPhone = customerPhone;

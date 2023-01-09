@@ -15,7 +15,8 @@ public class BookingDto {
     @DateTimeFormat(pattern="yyyy-MM-dd hh:mm")
     private String reservationDate;       //예약일
     private char visitStatus;           //방문여부(Y:방문,N:방문안함,C:고객임의취소)
-
+    @DateTimeFormat(pattern="yyyy-MM-dd hh:mm")
+    private Date createDate;        //요청일
 
 
     public BookingDto() {
@@ -28,6 +29,7 @@ public class BookingDto {
         Requirements = requirements;
         this.reservationDate = reservationDate;
         this.visitStatus = visitStatus;
+
     }
 
     public int getReservationNumber() {
@@ -84,5 +86,13 @@ public class BookingDto {
 
     public void setVisitStatus(char visitStatus) {
         this.visitStatus = visitStatus;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }

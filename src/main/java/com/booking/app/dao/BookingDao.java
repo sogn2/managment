@@ -2,6 +2,7 @@ package com.booking.app.dao;
 
 import com.booking.app.domain.BookingDto;
 import com.booking.app.domain.CustomerDto;
+import com.booking.app.domain.SearchConditionDto;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,10 @@ public class BookingDao {
     }
     public List<BookingDto> bookingList(Map map){
         return session.selectList(namespace+"bookingList",map);
+    }
+
+    public List<BookingDto> bookingSearch(SearchConditionDto dto){
+        return session.selectList(namespace+"bookingSearch",dto);
     }
 
 }

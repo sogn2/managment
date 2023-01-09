@@ -58,6 +58,7 @@ public class BookingController {
         try {
             BookingDto bookingDto = new BookingDto();
             CustomerDto customerDto = new CustomerDto();
+
             Map map = new HashMap();
             map.put("bookingDto",bookingDto);
             map.put("customerDto",customerDto);

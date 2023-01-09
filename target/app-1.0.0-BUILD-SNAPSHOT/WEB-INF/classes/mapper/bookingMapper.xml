@@ -11,134 +11,15 @@
     </insert>
     <!--  예약 등록  -->
     <insert id="bookingInsert" parameterType="BookingDto">
-<!--       <selectKey resultType="int" keyProperty="customerNumber" order="AFTER">-->
-<!--            SELECT LAST_INSERT_ID()-->
-<!--        </selectKey>-->
-
-               INSERT INTO booking (customerNumber,companyNumber,personnel,Requirements,reservationDate,visitStatus) VALUES ((select max(customerNumber2) from customer)  ,#{companyNumber},#{personnel},#{Requirements},#{reservationDate},#{visitStatus});
-
+                INSERT INTO booking
+                    (customerNumber,companyNumber,personnel,Requirements,reservationDate,visitStatus, createDate)
+                VALUES
+                    ((select max(customerNumber2) from customer), #{companyNumber}, #{personnel}, #{Requirements}, #{reservationDate}, #{visitStatus}, now());
     </insert>
-
+<!--예약리스트 조회-->
     <select id="bookingList" resultType="map" parameterType="map">
-        select * from booking  a inner JOIN customer  b on a.customerNumber = b.customerNumber2;    </select>
-<!--
-&lt;!&ndash;    전체 게시글 개수 구하기&ndash;&gt;
-    <select id="count" resultType="int">
-        SELECT count(*) FROM board
+        select * from booking  a inner JOIN customer  b on a.customerNumber = b.customerNumber2;
     </select>
 
-&lt;!&ndash;    특정 게시글 한개 가져오기&ndash;&gt;
-    <select id="select" parameterType="int" resultType="BoardDto">
-        SELECT * from board where bno = #{bno}
-    </select>
-
-&lt;!&ndash;    게시글 전체 가져오기 (정렬: 최근 게시물이 위로)&ndash;&gt;
-    <select id="selectAll" resultType="BoardDto">
-        select * from board order by reg_date desc, bno desc
-    </select>
-
-&lt;!&ndash;    게시글 전체 가져오기(특정 번호부터 몇개)&ndash;&gt;
-    <select id="selectPage" parameterType="map" resultType="BoardDto">
-        select * from board order by reg_date desc, bno desc
-        limit #{offset}, #{pageSize}
-    </select>
-
-
-
-
-
-
-    &lt;!&ndash; 요 아래 <include> 구문에서 쓰일거&ndash;&gt;
-    <sql id="selectFromBoard">
-        SELECT bno, title, content, writer, view_cnt, comment_cnt, reg_date
-        FROM board
-    </sql>
-
-&lt;!&ndash;    <select id="select" parameterType="int" resultType="BoardDto">&ndash;&gt;
-&lt;!&ndash;        <include refid="selectFromBoard" />&ndash;&gt;
-&lt;!&ndash;        WHERE bno = #{bno}&ndash;&gt;
-&lt;!&ndash;    </select>&ndash;&gt;
-
-    &lt;!&ndash; 검색시 필요 - SearchCondition 도 mybatis-config.xml 에 가서 별칭 만들자 &ndash;&gt;
-    <select id="searchSelectPage" parameterType="SearchCondition"  resultType="BoardDto">
-&lt;!&ndash;        select * from board&ndash;&gt;
-&lt;!&ndash;        where true and title like concat('%', #{keyword},'%')&ndash;&gt;
-&lt;!&ndash;        order by reg_date desc, bno desc&ndash;&gt;
-&lt;!&ndash;        limit #{offset}, #{pageSize}&ndash;&gt;
-
-        select * from board
-        where true
-        <choose>
-            <when test='option=="T"'>
-                AND title LIKE concat('%', #{keyword}, '%')
-            </when>
-            <when test='option=="W"'>
-                AND writer LIKE concat('%', #{keyword}, '%')
-            </when>
-            <otherwise>
-                AND (title   LIKE concat('%', #{keyword}, '%')
-                OR   content LIKE concat('%', #{keyword}, '%'))
-            </otherwise>
-        </choose>
-        order by reg_date desc, bno desc
-        limit #{offset}, #{pageSize}
-
-    </select>
-
-    &lt;!&ndash;검색 결과가 몇개 있는지 알아야 paging 할 수 있으니께..&ndash;&gt;
-    <select id="searchSelectCount" parameterType="SearchCondition"  resultType="int">
-        select count(*)
-        from board
-        where true
-        <choose>
-            <when test='option=="T"'>
-                AND title LIKE concat('%', #{keyword}, '%')
-            </when>
-            <when test='option=="W"'>
-                AND writer LIKE concat('%', #{keyword}, '%')
-            </when>
-            <otherwise>
-                AND (title   LIKE concat('%', #{keyword}, '%')
-                OR   content LIKE concat('%', #{keyword}, '%'))
-            </otherwise>
-        </choose>
-    </select>
-
-&lt;!&ndash;    전체 다 지우기&ndash;&gt;
-    <delete id="deleteAll">
-        DELETE FROM board
-    </delete>
-
-    <delete id="delete" parameterType="map">
-        DELETE FROM board WHERE bno = #{bno} and writer = #{writer}
-    </delete>
-
-    &lt;!&ndash;    만약 관리자용으로 지우는거 따로 만든다면 이렇게 하기 &ndash;&gt;
-    <delete id="deleteForAdmin" parameterType="map">
-        DELETE FROM board WHERE bno = #{bno}
-    </delete>
-
-&lt;!&ndash;    게시글 수정&ndash;&gt;
-    <update id="update" parameterType="BoardDto">
-        UPDATE board
-        SET   title = #{title}
-        , content = #{content}
-        , up_date = now()
-        WHERE bno = #{bno} and writer = #{writer}
-    </update>
-
-&lt;!&ndash;    댓글 개수 증가&ndash;&gt;
-    <update id="updateCommentCnt" parameterType="map">
-        UPDATE board
-        SET   comment_cnt = comment_cnt + #{cnt} &lt;!&ndash;  +1 들어올수도 있고, -1 들어올수도 있다.  &ndash;&gt;
-        WHERE bno = #{bno}
-    </update>
-
-&lt;!&ndash;    조회수 올리는 쿼리&ndash;&gt;
-    <update id="increaseViewCnt" parameterType="int">
-        UPDATE board
-        SET   view_cnt = view_cnt + 1
-        WHERE bno = #{bno}
-    </update>-->
 
 </mapper>

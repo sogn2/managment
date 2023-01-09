@@ -22,14 +22,15 @@ public class BookingDaoTest {
     BookingDao bookingDao;
     @Test
     public void BookingInsert() throws Exception {
-        CustomerDto customerDto = new CustomerDto("이름","1");
-        assertTrue(bookingDao.CustomerInsert(customerDto)==1);
-        String s = "2023-01-08 15:30";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-        java.util.Date date = sdf.parse(s);
-        BookingDto bookingDto = new BookingDto(1, 13, 1,  "요구","2023-01-08 15:30", 'n');
-        assertTrue(bookingDao.BookingInsert(bookingDto)==1);
-
+        for(int i=0; i<100; i++) {
+            CustomerDto customerDto = new CustomerDto("이름", "1");
+            assertTrue(bookingDao.CustomerInsert(customerDto) == 1);
+            String s = "2023-01-08 15:30";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            java.util.Date date = sdf.parse(s);
+            BookingDto bookingDto = new BookingDto(1, 13, 1, "요구", "2023-01-08 15:30", 'n');
+            assertTrue(bookingDao.BookingInsert(bookingDto) == 1);
+        }
     }
     @Test
     public void BookingList(){
@@ -39,5 +40,6 @@ public class BookingDaoTest {
         map.put("bookingDto",bookingDto);
         map.put("customerDto",customerDto);
         List<BookingDto> list = bookingDao.bookingList(map);
+        assertTrue(list.size()>50);
     }
 }

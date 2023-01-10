@@ -4,6 +4,7 @@
 target/*
 META-INF/*
 .springBeans
+
 ### QueryDsl
 src/main/generated
 

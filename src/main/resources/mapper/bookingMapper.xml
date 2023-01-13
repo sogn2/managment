@@ -11,24 +11,32 @@
     </insert>
     <!--  예약 등록  -->
     <insert id="bookingInsert" parameterType="BookingDto">
-                INSERT INTO booking
-                    (customerNumber,companyNumber,personnel,Requirements,reservationDate,visitStatus, createDate)
-                VALUES
-                    ((select max(customerNumber2) from customer), #{companyNumber}, #{personnel}, #{Requirements}, #{reservationDate}, #{visitStatus}, now());
+        INSERT INTO booking
+        (customerNumber,companyNumber,personnel,Requirements,reservationDate,visitStatus, createDate)
+        VALUES
+        ((select max(customerNumber2) from customer), #{companyNumber}, #{personnel}, #{Requirements},
+        #{reservationDate}, #{visitStatus}, now());
     </insert>
-<!--예약리스트 조회-->
+    <!--예약리스트 조회-->
     <select id="bookingList" resultType="hashmap" parameterType="map">
-        select * from booking  a inner JOIN customer  b on a.customerNumber = b.customerNumber2
+        select * from booking a inner JOIN customer b on a.customerNumber = b.customerNumber2
 
     </select>
-<!--검색-->
+    <!--검색-->
     <select id="bookingSearch" resultType="map" parameterType="SearchConditionDto">
-        select * from booking  a inner JOIN customer  b on a.customerNumber = b.customerNumber2
+        select * from booking a inner JOIN customer b on a.customerNumber = b.customerNumber2
+        where true
+            <if test="reservationDate != null">
+                <!-- and  a.reservationDate <![CDATA[ <= ]]>  #{reservationDate}-->
+                and a.reservationDate like concat('%',#{reservationDate},'%')
+            </if>
+            <if test="customerName != null">
+                and b.customerName like concat('%',#{customerName},'%')
+            </if>
+            <if test="customerPhone != null">
+                and b.customerPhone like concat(#{customerPhone},"%")
+            </if>
 
-       where true  <!--  and  a.reservationDate <![CDATA[ <= ]]>  #{reservationDate}-->
-           and b.customerName like concat('%',#{customerName},'%')
-             <!--and b.customerPhone like concat(${customerPhone},"%")-->
-
-</select>
+    </select>
 
 </mapper>

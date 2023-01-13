@@ -1,5 +1,7 @@
 package com.booking.app.domain;
 
+import java.util.Date;
+
 public class SearchConditionDto {
     private Integer page =1;
     private Integer pageSize =10;
@@ -13,9 +15,23 @@ public class SearchConditionDto {
     public SearchConditionDto() {
     }
 
+    public SearchConditionDto(String keyword, String reservationDate) {
+        this.keyword = keyword;
+        this.reservationDate = reservationDate;
+    }
+
     public SearchConditionDto(String customerName) {
         this.customerName = customerName;
     }
+
+//    public SearchConditionDto(String customerName, String customerPhone) {
+//        this.customerName = customerName;
+//        this.customerPhone = customerPhone;
+//    }
+
+//    public SearchConditionDto(Date reservationDate) {
+//        this.reservationDate = reservationDate;
+//    }
 
     public Integer getPage() {
         return page;

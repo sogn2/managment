@@ -3,6 +3,7 @@ package com.booking.app.service;
 import com.booking.app.dao.BookingDao;
 import com.booking.app.domain.BookingDto;
 import com.booking.app.domain.CustomerDto;
+import com.booking.app.domain.SearchConditionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +24,8 @@ public class BookingService {
     }
     public List<BookingDto> bookingList(Map map) throws Exception {
         return bookingDao.bookingList(map);
+    }
+    public List<BookingDto> bookingSearch(SearchConditionDto dto){
+        return bookingDao.bookingSearch(dto);
     }
 }

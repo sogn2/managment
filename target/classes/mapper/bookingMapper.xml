@@ -25,9 +25,21 @@
     <select id="bookingSearch" resultType="map" parameterType="SearchConditionDto">
         select * from booking  a inner JOIN customer  b on a.customerNumber = b.customerNumber2
 
-       where true  <!--  and  a.reservationDate <![CDATA[ <= ]]>  #{reservationDate}-->
+       where true  <!--  and  a.reservationDate <![CDATA[ <= ]]>  #{reservationDate}
            and b.customerName like concat('%',#{customerName},'%')
-             <!--and b.customerPhone like concat(${customerPhone},"%")-->
+            and b.customerPhone like concat(${customerPhone},"%")-->
+
+            <if test="reservationDate != null">
+               <!-- and  a.reservationDate <![CDATA[ <= ]]>  #{reservationDate}-->
+                and  a.reservationDate like concat('%',#{reservationDate},'%')
+
+            </if>
+            <if test="customerName != null">
+                and b.customerName like concat('%',#{customerName},'%')
+            </if>
+            <if test="customerPhone != null">
+                and b.customerPhone like concat(#{customerPhone},"%")
+            </if>
 
 </select>
 

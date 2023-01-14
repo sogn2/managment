@@ -2,6 +2,8 @@ package com.booking.app.Controller;
 
 import com.booking.app.domain.BookingDto;
 import com.booking.app.domain.CustomerDto;
+import com.booking.app.domain.PageHandler;
+import com.booking.app.domain.SearchConditionDto;
 import com.booking.app.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +25,11 @@ public class BookingController {
 
 
         /* 글쓰기(화면만 보여주는거) 버튼 누르고, 글쓰기 페이지 들어갈때. */
-    @GetMapping("/write")
-    public String write(Model m) {
-        m.addAttribute("mode","new");
-        return "board";
-    }
+//    @GetMapping("/write")
+//    public String write(Model m) {
+//        m.addAttribute("mode","new");
+//        return "redirect:/board/list";
+//    }
         /* 글쓰기 */
     @PostMapping("/write")
     public String write(BookingDto bookingDto, CustomerDto customerDto, HttpSession session, Model m) {
@@ -35,10 +37,15 @@ public class BookingController {
         try {
 //            String writer = (String) session.getAttribute("id");
 //            bookingDto.setWriter(writer);
-            System.out.println("bookingDto: " + bookingDto);
-            int rowCount = bookingService.bookingInsert(bookingDto);
-            int rowCount1 = bookingService.customerInsert(customerDto);
-            return "redirect:/board/list";
+           int customer =  bookingService.customerInsert(customerDto);
+           int booking= bookingService.bookingInsert(bookingDto);
+
+            if (booking != 1 && customer !=1){
+                throw new Exception("게시글 등록 오류");
+            }
+            System.out.println("booking = " + booking);
+            System.out.println("customer = " + customer);
+            return "redirect:/list";
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,28 +53,50 @@ public class BookingController {
             // 만약 try 에서 DB에 게시글 저장하다가 에러나면 다시 원래 글쓰던 화면으로 방금 정보 다 가지고 돌아가게 하기.
             m.addAttribute("bookingDto", bookingDto);
             m.addAttribute("customerDto", customerDto);
-            return "board";
+            return "boardList";
         }
     }
+
+
+
     @GetMapping("/list")
-    public String list( Model m, HttpServletRequest request) {
-
-
-
-
+    public String list(SearchConditionDto sc, Model m, HttpServletRequest request) {
         try {
+           Integer page = sc.getPage();
+            Integer pageSize = sc.getPageSize();
+
+
+            // null 값 들어왔을때 대비
+            if(page==null) {page=1; sc.setPage(1);}
+            if(pageSize==null) {pageSize=10; sc.setPageSize(10);}
+
+
+            // 종 게시물 개수 구해서
+            int totalCount = bookingService.getSearchResultCnt(sc);
+            System.out.println("totalCount22: " + totalCount);
+
+            // 페이징 계산하기(마지막 페이지가 몇번째인지)
+            PageHandler pageHandler = new PageHandler(totalCount, page, pageSize);
+            System.out.println("pageHandler22 : " + pageHandler);
+
+
+
             BookingDto bookingDto = new BookingDto();
             CustomerDto customerDto = new CustomerDto();
 
             Map map = new HashMap();
             map.put("bookingDto",bookingDto);
             map.put("customerDto",customerDto);
-            List<BookingDto> list = bookingService.bookingList(map);
+            map.put("offset", (page-1)*pageSize);
+            map.put("pageSize", pageSize);
+            List<BookingDto> list = bookingService.bookingSearchMap(map);
             // 이렇게 하면 최근 글 10개 가져온다.
             // view에 넘길거니까 모델에 담아서 보낸다.
             m.addAttribute("list", list);
-
-
+            m.addAttribute("ph", pageHandler);
+            m.addAttribute("page", page);
+            m.addAttribute("pageSize", pageSize);
+            System.out.println(map);
             System.out.println("list: " + list);
 
             return "boardList";

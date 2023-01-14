@@ -28,4 +28,10 @@ public class BookingService {
     public List<BookingDto> bookingSearch(SearchConditionDto dto){
         return bookingDao.bookingSearch(dto);
     }
+    public List<BookingDto> bookingSearchMap(Map map){
+        return bookingDao.bookingSearchMap(map);
+    }
+    public int getSearchResultCnt(SearchConditionDto sc) throws Exception {
+        return bookingDao.searchSelectCount(sc);
+    }
 }

@@ -3,20 +3,22 @@ package com.booking.app.domain;
 import java.util.Date;
 
 public class SearchConditionDto {
-    private Integer page =1;
-    private Integer pageSize =10;
-    //    private Integer offset = 0;
-    private String keyword="";
-    private String option="";
-    private String customerName;
-    private String customerPhone;
+    private Integer page =1;              //페이지
+    private Integer pageSize =10;         //페이지 사이즈
+    private Integer offset=0;
+    private String customerName;          //고객명
+    private String customerPhone;         // 휴대폰
     private String reservationDate;       //예약일
 
     public SearchConditionDto() {
     }
 
-    public SearchConditionDto(String keyword, String reservationDate) {
-        this.keyword = keyword;
+
+    public SearchConditionDto(Integer page, Integer pageSize, String customerName, String customerPhone, String reservationDate) {
+        this.page = page;
+        this.pageSize = pageSize;
+        this.customerName = customerName;
+        this.customerPhone = customerPhone;
         this.reservationDate = reservationDate;
     }
 
@@ -49,22 +51,6 @@ public class SearchConditionDto {
         this.pageSize = pageSize;
     }
 
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
-
-    public String getOption() {
-        return option;
-    }
-
-    public void setOption(String option) {
-        this.option = option;
-    }
-
     public String getCustomerName() {
         return customerName;
     }
@@ -87,5 +73,13 @@ public class SearchConditionDto {
 
     public void setReservationDate(String reservationDate) {
         this.reservationDate = reservationDate;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
     }
 }

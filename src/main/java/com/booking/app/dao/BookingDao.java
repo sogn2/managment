@@ -24,12 +24,16 @@ public class BookingDao {
     public int BookingInsert(BookingDto dto) throws Exception {
         return session.insert(namespace+"bookingInsert", dto);
     }
-    public List<BookingDto> bookingList(Map map){
+    public List<BookingDto> bookingList(Map map) {
         return session.selectList(namespace+"bookingList",map);
     }
-
-    public List<BookingDto> bookingSearch(SearchConditionDto dto){
-        return session.selectList(namespace+"bookingSearch",dto);
+    public List<BookingDto> bookingSearchMap(Map map) {
+        return session.selectList(namespace+"bookingSearchMap",map);
     }
-
+    public List<BookingDto> bookingSearch(SearchConditionDto sc){
+        return session.selectList(namespace+"bookingSearch",sc);
+    }
+    public int searchSelectCount(SearchConditionDto sc) throws  Exception{
+        return session.selectOne(namespace+"searchSelectCount",sc);
+    }
 }

@@ -11,7 +11,7 @@ public class BookingDto {
     private int customerNumber;     //고객번호
     private int companyNumber;      //사업장번호
     private int personnel;              //인원수
-    private String Requirements;        //요구사항
+    private String requirements;        //요구사항
     @DateTimeFormat(pattern="yyyy-MM-dd hh:mm")
     private String reservationDate;       //예약일
     private char visitStatus;           //방문여부(Y:방문,N:방문안함,C:고객임의취소)
@@ -26,7 +26,7 @@ public class BookingDto {
         this.customerNumber = customerNumber;
         this.companyNumber = companyNumber;
         this.personnel = personnel;
-        Requirements = requirements;
+        this.requirements = requirements;
         this.reservationDate = reservationDate;
         this.visitStatus = visitStatus;
 
@@ -65,11 +65,11 @@ public class BookingDto {
     }
 
     public String getRequirements() {
-        return Requirements;
+        return requirements;
     }
 
     public void setRequirements(String requirements) {
-        Requirements = requirements;
+        this.requirements = requirements;
     }
 
     public String getReservationDate() {

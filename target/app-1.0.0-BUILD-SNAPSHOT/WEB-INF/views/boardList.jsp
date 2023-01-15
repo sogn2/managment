@@ -27,7 +27,10 @@
             gap: 30px;
         }
         .search_bar{
-            width: 400px;
+            width: 400px;}
+        .pagination{
+            justify-content: center;
+
         }
     </style>
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
@@ -67,7 +70,7 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link" href="/admin/bulk-pass">
+            <a class="nav-link" href="#">
                 <i class="fas fa-fw fa-dumbbell"></i>
                 <span>Pass</span></a>
         </li>
@@ -122,16 +125,16 @@
                 <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
 
-                        <input type="text" class="form-control bg-light border-0 small" value="" placeholder="예약일">
+                        <input type="text" id="reservationDate" class="form-control bg-light border-0 small" value="${param.reservationDate}" placeholder="예약일">
 
 
-                        <input type="text" class="form-control bg-light border-0 small" value="" placeholder="이름">
+                        <input type="text" id="customerName" class="form-control bg-light border-0 small" value="${param.customerName}" placeholder="이름">
 
-                        <input type="text" class="form-control bg-light border-0 small" value="" placeholder="휴대폰">
+                        <input type="text" id="customerPhone" class="form-control bg-light border-0 small" value="${param.customerPhone}" placeholder="휴대폰">
                         <!-- <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                                aria-label="Search" aria-describedby="basic-addon2"> -->
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
+                            <button type="button" class="btn btn-primary fas fa-search fa-sm" id="btn_search" name="btn_search">
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
                         </div>
@@ -322,40 +325,11 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-1 text-gray-800">Passes</h1>
-                <p class="mb-4">다수의 회원들에게 이용권을 일괄 지급을 예약할 수 있습니다. 이용권은 시작 시간 1일 전 회원들에게 지급됩니다.</p>
+                <h1 class="h3 mb-1 text-gray-800">예약현황</h1>
+                <p class="mb-4">예약 현황을 보여드립니다</p>
                 <!-- Content Row -->
                 <div class="row">
 
-                    <!-- Grow In Utility -->
-                    <!--
-                    <div class="col-lg-8 mb-5">
-                     <div class="card position-relative">
-                         <div class="card-header py-3">
-                             <h6 class="m-0 font-weight-bold text-primary">예약 조회</h6>
-                         </div>
-                         <div class="card-body">
-
-                               <div class="search_area">
-
-                                  <input type="text" class="form-control" value="" placeholder="예약일">
-                               </div>
-
-                                 <input type="text" class="form-control" value="" placeholder="이름">
-                               </div>
-
-                                 <input type="text" class="form-control" value="" placeholder="휴대폰">
-                               </div>
-
-                                 <input class="btn btn-primary" type="submit" value="조회">
-
-                               </div>
-
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-  -->
                     <!-- Grow In Utility -->
                     <div class="col-lg-8">
                         <div class="card position-relative">
@@ -373,50 +347,99 @@
                                             <th>휴대폰</th>
                                             <th>인원</th>
                                             <th>요구사항</th>
+                                            <th>방문여부</th>
                                             <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        <c:forEach items="${list}" var="booking">
                                         <tr>
-                                            <td>1</td>
-                                            <td>2022-01-10</td>
-                                            <td>이름</td>
-                                            <td>휴대폰</td>
-                                            <td>인원</td>
-                                            <td>요구사항</td>
-                                            <td><input type="button"></td>
+                                            <td>${booking.reservationNumber}</td>
+                                            <td>${booking.reservationDate}</td>
+                                            <td>${booking.customerName}</td>
+                                            <td>${booking.customerPhone}</td>
+                                            <td>${booking.personnel}</td>
+                                            <td>${booking.requirements}</td>
+                                            <td>
+<%--                                                    ${booking.visitStatus eq 'N'?'방문안함':'방문함'}--%>
+                                                <c:choose>
+                                                    <c:when test="${booking.visitStatus eq 'Y'}">
+                                                        방문함
+                                                    </c:when>
+                                                    <c:when test="${booking.visitStatus eq 'N'}">
+                                                        방문안함
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        취소
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td><input class="btn btn-primary" type="submit" value="수정"> <input class="btn btn-secondary" type="submit" value="삭제"></td>
                                         </tr>
+                                        </c:forEach>
                                         </tbody>
                                     </table>
+
+<%--                                    <nav aria-label="Page navigation example">--%>
+                                        <ul class="pagination page_bar">
+                                            <li class="page-item">
+                                                <c:if test="${ph.showPrev}">
+                                                <a href="<c:url value='/list?page=${ph.beginPage-1}&pageSize=${ph.pageSize}' />" class="page-link">[이전]</a>
+                                            </c:if>
+                                            </li>
+
+                                            <li class="page-item">
+                                                <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
+                                                <a href="<c:url value='/list?page=${i}&pageSize=${ph.pageSize}' /> " class="page-link ${i==ph.page?"pageActive":""}"> ${i}</a>
+                                            </li>
+                                            </c:forEach>
+                                            <li class="page-item">
+                                            <c:if test="${ph.showNext}">
+                                                <a href="<c:url value='/list?page=${ph.endPage+1}&pageSize=${ph.pageSize}' />" class="page-link">[다음]</a>
+                                            </c:if>
+                                            </li>
+
+                                        </ul>
+<%--                                    </nav>--%>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     <div class="col-lg-4">
                         <div class="card position-relative full-height">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">이용권 일괄 지급 등록</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">예약 등록</h6>
                             </div>
                             <div class="card-body">
-                                <form action="#" th:action="@{/admin/bulk-pass}" th:object="${request}" method="post">
-                                    <div class="small mb-1">고객 이름</div>
-                                    <input class="form-control mb-2" type="text" placeholder="이름" />
+                                <form id="form" action=""  method="post">
+
+                                    <div class="small mb-1" >고객 이름</div>
+                                    <input name="customerName" class="form-control mb-2" type="text" placeholder="이름" />
                                     <div class="small mb-1">휴대폰번호</div>
-                                    <input class="form-control mb-2" type="text" placeholder="010-0000-0000" />
+                                    <input name="customerPhone" class="form-control mb-2" type="text" placeholder="010-0000-0000" />
                                     <div class="small mb-1">예약 일시</div>
-                                    <input class="form-control mb-2" type="text" placeholder="2022-09-01 00:00" />
+                                    <input name="reservationDate" class="form-control mb-2" type="text" placeholder="2022-09-01 00:00" />
                                     <div class="small mb-1">인원수</div>
-                                    <input class="form-control mb-2" type="text" placeholder="인원수" />
+                                    <input name="personnel" class="form-control mb-2" type="text" placeholder="인원수" />
                                     <div class="small mb-1">요구사항</div>
-                                    <input class="form-control mb-2" type="text" placeholder="요구사항" />
+                                    <input name="requirements" class="form-control mb-2" type="text" placeholder="요구사항" />
+                                    <div class="small mb-1">요구사항</div>
+                                    <select class="form-control" name="visitStatus">
+                                        <option value="Y" >방문함</option>
+                                        <option value="N" selected>방문안함</option>
+                                        <option value="C" >취소</option>
+                                    </select>
                                     <div class="d-flex align-items-end flex-column">
-                                        <input class="btn btn-primary" type="submit" value="+ 등록">
+                                        <button class="btn btn-primary" id="writeBtn" type="button">등록</button>
                                     </div>
 
                                 </form>
                             </div>
                         </div>
+
                     </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -446,6 +469,28 @@
 
 <!-- Custom scripts for all pages-->
 <script src="/js/sb-admin-2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#btn_search').on("click", function(){
+            <%--alert("<c:url value='/board/list'/>?page=${page}&pageSize=${pageSize}");--%>
 
+            location.href = "<c:url value='/list'/>?page=1&pageSize=${pageSize}&customerName="+$('#customerName').val().trim()+"&customerPhone="+$('#customerPhone').val().trim();
+
+            /* keyword 와 option 은 SearchCondition 의 이름과 맞춰줘야 한다. */
+        })
+        // $('#customerPhone').on('keydown', function(e){
+        //     if(e.keyCode==13 && $('#btn_search').val().trim().length > 0) {
+        //         $('#btn_search').trigger('click');
+        //     }
+        // });
+        $("#writeBtn").on("click", function(){
+            let form = $("#form");
+            form.attr("action", "<c:url value='/write'/>");
+            form.attr("method", "post");
+            // if(formCheck())
+                form.submit();
+        });
+    });
+</script>
 </body>
 </html>

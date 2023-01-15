@@ -24,21 +24,21 @@ public class BookingController {
     BookingService bookingService;
 
 
-        /* 글쓰기(화면만 보여주는거) 버튼 누르고, 글쓰기 페이지 들어갈때. */
+    /* 글쓰기(화면만 보여주는거) 버튼 누르고, 글쓰기 페이지 들어갈때. */
 //    @GetMapping("/write")
 //    public String write(Model m) {
 //        m.addAttribute("mode","new");
 //        return "redirect:/board/list";
 //    }
-        /* 글쓰기 */
+    /* 글쓰기 */
     @PostMapping("/write")
     public String write(BookingDto bookingDto, CustomerDto customerDto, HttpSession session, Model m) {
 
         try {
 //            String writer = (String) session.getAttribute("id");
 //            bookingDto.setWriter(writer);
-           int customer =  bookingService.customerInsert(customerDto);
-           int booking= bookingService.bookingInsert(bookingDto);
+            int customer =  bookingService.customerInsert(customerDto);
+            int booking= bookingService.bookingInsert(bookingDto);
 
             if (booking != 1 && customer !=1){
                 throw new Exception("게시글 등록 오류");
@@ -62,7 +62,7 @@ public class BookingController {
     @GetMapping("/list")
     public String list(SearchConditionDto sc, Model m, HttpServletRequest request) {
         try {
-           Integer page = sc.getPage();
+            Integer page = sc.getPage();
             Integer pageSize = sc.getPageSize();
 
 
@@ -79,25 +79,12 @@ public class BookingController {
             PageHandler pageHandler = new PageHandler(totalCount, page, pageSize);
             System.out.println("pageHandler22 : " + pageHandler);
 
-
-//
-//            BookingDto bookingDto = new BookingDto();
-//            CustomerDto customerDto = new CustomerDto();
-
-            Map map = new HashMap();
-//            map.put("bookingDto",bookingDto);
-//            map.put("customerDto",customerDto);
-            map.put("offset", (page-1)*pageSize);
-            map.put("pageSize", pageSize);
             List<BookingDto> list = bookingService.bookingSearch(sc);
-            // 이렇게 하면 최근 글 10개 가져온다.
-            // view에 넘길거니까 모델에 담아서 보낸다.
+
             m.addAttribute("list", list);
             m.addAttribute("ph", pageHandler);
-            m.addAttribute("page", page);
-            m.addAttribute("pageSize", pageSize);
-            System.out.println(map);
-            System.out.println("list: " + list);
+
+
 
             return "boardList";
 

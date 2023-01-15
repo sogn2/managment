@@ -57,7 +57,7 @@ public class SearchConditionDto {
     }
 
     public Integer getOffset() {
-        return offset;
+        return (page-1)*pageSize;
     }
 
     public void setOffset(Integer offset) {

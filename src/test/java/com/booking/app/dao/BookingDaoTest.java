@@ -70,8 +70,8 @@ public class BookingDaoTest {
         BookingDto bookingDto = new BookingDto();
         CustomerDto customerDto = new CustomerDto();
 
-        SearchConditionDto sc = new SearchConditionDto();
-        sc.setCustomerName("오송");
+        SearchConditionDto sc = new SearchConditionDto("정해");
+
         Map map = new HashMap();
         map.put("customerDto",customerDto);
 

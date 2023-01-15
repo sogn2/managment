@@ -80,16 +80,16 @@ public class BookingController {
             System.out.println("pageHandler22 : " + pageHandler);
 
 
-
-            BookingDto bookingDto = new BookingDto();
-            CustomerDto customerDto = new CustomerDto();
+//
+//            BookingDto bookingDto = new BookingDto();
+//            CustomerDto customerDto = new CustomerDto();
 
             Map map = new HashMap();
-            map.put("bookingDto",bookingDto);
-            map.put("customerDto",customerDto);
+//            map.put("bookingDto",bookingDto);
+//            map.put("customerDto",customerDto);
             map.put("offset", (page-1)*pageSize);
             map.put("pageSize", pageSize);
-            List<BookingDto> list = bookingService.bookingSearchMap(map);
+            List<BookingDto> list = bookingService.bookingSearch(sc);
             // 이렇게 하면 최근 글 10개 가져온다.
             // view에 넘길거니까 모델에 담아서 보낸다.
             m.addAttribute("list", list);

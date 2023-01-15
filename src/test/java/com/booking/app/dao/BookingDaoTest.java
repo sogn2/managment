@@ -47,27 +47,36 @@ public class BookingDaoTest {
     }
     @Test
     public void bookingSearchMap(){
-        BookingDto bookingDto = new BookingDto();
+        BookingDto bookingDto = new BookingDto("2023-01");
         CustomerDto customerDto = new CustomerDto();
+        SearchConditionDto sc = new SearchConditionDto();
+        sc.setCustomerName("정해");
+        customerDto.setCustomerName("정해");
         Map map = new HashMap();
         map.put("bookingDto",bookingDto);
         map.put("customerDto",customerDto);
-        map.put("offset",10);
-        map.put("pageSize",10);
+        map.put("sc",sc);
+
+////
+//        map.put("offset",0);
+//        map.put("pageSize",10);
+
+//            bookingDao.bookingSearchMap(map);
             bookingDao.bookingSearchMap(map);
+        System.out.println("과목"+map);
     }
     @Test
     public void BookingSearchDate(){
-//        BookingDto bookingDto = new BookingDto();
-//        CustomerDto customerDto = new CustomerDto();
+        BookingDto bookingDto = new BookingDto();
+        CustomerDto customerDto = new CustomerDto();
 
-//        SearchConditionDto sc = new SearchConditionDto("우","2022-01-18");
+        SearchConditionDto sc = new SearchConditionDto();
+        sc.setCustomerName("오송");
+        Map map = new HashMap();
+        map.put("customerDto",customerDto);
 
-//        Map map = new HashMap();
-//        map.put("customerDto",customerDto);
-
-//        List<BookingDto> list = bookingDao.bookingSearch(sc);
-//        assertTrue(list.size()<=50);
+        List<BookingDto> list = bookingDao.bookingSearch(sc);
+        assertTrue(list.size()<=50);
     }
    /*   @Test
     public void BookingSearchNameAndPhone(){

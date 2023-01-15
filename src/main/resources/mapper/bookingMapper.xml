@@ -21,11 +21,11 @@
         select * from booking a inner JOIN customer b on a.customerNumber = b.customerNumber2
     </select>
     <!--검색-->
-<!--    <select id="bookingSearch" resultType="map" parameterType="SearchConditionDto">
+    <select id="bookingSearch" resultType="map" parameterType="SearchConditionDto">
         select * from booking a inner JOIN customer b on a.customerNumber = b.customerNumber2
         where true
             <if test="reservationDate != null">
-                &lt;!&ndash; and  a.reservationDate <![CDATA[ <= ]]>  #{reservationDate}&ndash;&gt;
+                <!-- and  a.reservationDate <![CDATA[ <= ]]>  #{reservationDate}-->
                 and a.reservationDate like concat('%',#{reservationDate},'%')
             </if>
             <if test="customerName != null">
@@ -35,10 +35,27 @@
                 and b.customerPhone like concat(#{customerPhone},"%")
             </if>
         limit #{offset}, #{pageSize}
-    </select>-->
+    </select>
     <!--검색-->
-    <select id="bookingSearchMap" resultType="map" parameterType="SearchConditionDto">
+
+    <select id="bookingSearchMap" resultType="HashMap" parameterType="SearchConditionDto">
         select * from booking a inner JOIN customer b on a.customerNumber = b.customerNumber2
+        where true and b.customerName like #{customerName}
+        <!--<if test="reservationDate != null">
+            &lt;!&ndash; and  a.reservationDate <![CDATA[ <= ]]>  #{reservationDate}&ndash;&gt;
+            and a.reservationDate like concat('%',#{reservationDate},'%')
+        </if>
+        <if test="customerName != null">
+            and b.customerName like concat('%',#{customerName},'%')
+        </if>
+        <if test="customerPhone != null">
+            and b.customerPhone like concat(#{customerPhone},"%")
+        </if>-->
+
+    </select>
+    <!--게시글 개수-->
+    <select id="searchSelectCount" resultType="int" parameterType="SearchConditionDto">
+        select count(*) from booking a inner JOIN customer b on a.customerNumber = b.customerNumber2
         where true
         <if test="reservationDate != null">
             <!-- and  a.reservationDate <![CDATA[ <= ]]>  #{reservationDate}-->
@@ -50,21 +67,5 @@
         <if test="customerPhone != null">
             and b.customerPhone like concat(#{customerPhone},"%")
         </if>
-        limit #{offset}, #{pageSize}
-    </select>
-    <!--게시글 개수-->
-    <select id="searchSelectCount" resultType="int" parameterType="SearchConditionDto">
-        select count(*) from booking a inner JOIN customer b on a.customerNumber = b.customerNumber2
-        where true
-        <if test="reservationDate != null">
-            and a.reservationDate like concat('%',#{reservationDate},'%')
-        </if>
-        <if test="customerName != null">
-            and customerName like concat('%',#{customerName},'%')
-        </if>
-        <if test="customerPhone != null">
-            and b.customerPhone like concat(#{customerPhone},"%")
-        </if>
-
     </select>
 </mapper>

@@ -2,7 +2,7 @@ package com.booking.app.domain;
 
 public class CustomerDto {
 
-    private int customerNumber2;
+    private int customerNumber;
     private String customerName;
     private String customerPhone;
 
@@ -18,12 +18,12 @@ public class CustomerDto {
         this.customerPhone = customerPhone;
     }
 
-    public int getCustomerNumber2() {
-        return customerNumber2;
+    public int getCustomerNumber() {
+        return customerNumber;
     }
 
-    public void setCustomerNumber2(int customerNumber2) {
-        this.customerNumber2 = customerNumber2;
+    public void setCustomerNumber(int customerNumber) {
+        this.customerNumber = customerNumber;
     }
 
     public String getCustomerName() {
@@ -40,5 +40,14 @@ public class CustomerDto {
 
     public void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerDto{" +
+                "customerNumber=" + customerNumber +
+                ", customerName='" + customerName + '\'' +
+                ", customerPhone='" + customerPhone + '\'' +
+                '}';
     }
 }

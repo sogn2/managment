@@ -70,7 +70,7 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link" href="/admin/bulk-pass">
+            <a class="nav-link" href="#">
                 <i class="fas fa-fw fa-dumbbell"></i>
                 <span>Pass</span></a>
         </li>
@@ -125,16 +125,16 @@
                 <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
 
-                        <input type="text" class="form-control bg-light border-0 small" value="" placeholder="예약일">
+                        <input type="text" id="reservationDate" class="form-control bg-light border-0 small" value="${param.reservationDate}" placeholder="예약일">
 
 
-                        <input type="text" class="form-control bg-light border-0 small" value="" placeholder="이름">
+                        <input type="text" id="customerName" class="form-control bg-light border-0 small" value="${param.customerName}" placeholder="이름">
 
-                        <input type="text" class="form-control bg-light border-0 small" value="" placeholder="휴대폰">
+                        <input type="text" id="customerPhone" class="form-control bg-light border-0 small" value="${param.customerPhone}" placeholder="휴대폰">
                         <!-- <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                                aria-label="Search" aria-describedby="basic-addon2"> -->
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
+                            <button type="button" class="btn btn-primary fas fa-search fa-sm" id="btn_search" name="btn_search">
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
                         </div>
@@ -471,6 +471,18 @@
 <script src="/js/sb-admin-2.min.js"></script>
 <script>
     $(document).ready(function() {
+        $('#btn_search').on("click", function(){
+            <%--alert("<c:url value='/board/list'/>?page=${page}&pageSize=${pageSize}");--%>
+
+            location.href = "<c:url value='/list'/>?page=1&pageSize=${pageSize}&customerName="+$('#customerName').val().trim()+"&customerPhone="+$('#customerPhone').val().trim();
+
+            /* keyword 와 option 은 SearchCondition 의 이름과 맞춰줘야 한다. */
+        })
+        // $('#customerPhone').on('keydown', function(e){
+        //     if(e.keyCode==13 && $('#btn_search').val().trim().length > 0) {
+        //         $('#btn_search').trigger('click');
+        //     }
+        // });
         $("#writeBtn").on("click", function(){
             let form = $("#form");
             form.attr("action", "<c:url value='/write'/>");

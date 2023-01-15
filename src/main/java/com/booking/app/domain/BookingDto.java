@@ -8,9 +8,9 @@ import java.util.Date;
 public class BookingDto {
     private int reservationNumber;   //예약번호
 
-    private int customerNumber;     //고객번호
-    private int companyNumber;      //사업장번호
-    private int personnel;              //인원수
+    private Integer customerNumber;     //고객번호
+    private Integer companyNumber;      //사업장번호
+    private Integer personnel;              //인원수
     private String requirements;        //요구사항
     @DateTimeFormat(pattern="yyyy-MM-dd hh:mm")
     private String reservationDate;       //예약일
@@ -22,14 +22,17 @@ public class BookingDto {
     public BookingDto() {
     }
 
-    public BookingDto(int customerNumber, int companyNumber, int personnel, String requirements, String reservationDate, char visitStatus) {
+    public BookingDto(String reservationDate) {
+        this.reservationDate = reservationDate;
+    }
+
+    public BookingDto(Integer customerNumber, Integer companyNumber, Integer personnel, String requirements, String reservationDate, char visitStatus) {
         this.customerNumber = customerNumber;
         this.companyNumber = companyNumber;
         this.personnel = personnel;
         this.requirements = requirements;
         this.reservationDate = reservationDate;
         this.visitStatus = visitStatus;
-
     }
 
     public int getReservationNumber() {
@@ -40,27 +43,27 @@ public class BookingDto {
         this.reservationNumber = reservationNumber;
     }
 
-    public int getCustomerNumber() {
+    public Integer getCustomerNumber() {
         return customerNumber;
     }
 
-    public void setCustomerNumber(int customerNumber) {
+    public void setCustomerNumber(Integer customerNumber) {
         this.customerNumber = customerNumber;
     }
 
-    public int getCompanyNumber() {
+    public Integer getCompanyNumber() {
         return companyNumber;
     }
 
-    public void setCompanyNumber(int companyNumber) {
+    public void setCompanyNumber(Integer companyNumber) {
         this.companyNumber = companyNumber;
     }
 
-    public int getPersonnel() {
+    public Integer getPersonnel() {
         return personnel;
     }
 
-    public void setPersonnel(int personnel) {
+    public void setPersonnel(Integer personnel) {
         this.personnel = personnel;
     }
 
@@ -94,5 +97,19 @@ public class BookingDto {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    @Override
+    public String toString() {
+        return "BookingDto{" +
+                "reservationNumber=" + reservationNumber +
+                ", customerNumber=" + customerNumber +
+                ", companyNumber=" + companyNumber +
+                ", personnel=" + personnel +
+                ", requirements='" + requirements + '\'' +
+                ", reservationDate='" + reservationDate + '\'' +
+                ", visitStatus=" + visitStatus +
+                ", createDate=" + createDate +
+                '}';
     }
 }

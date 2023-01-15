@@ -13,10 +13,16 @@ public class SearchConditionDto {
     public SearchConditionDto() {
     }
 
+    public SearchConditionDto(String customerName, String customerPhone, String reservationDate) {
+        this.customerName = customerName;
+        this.customerPhone = customerPhone;
+        this.reservationDate = reservationDate;
+    }
 
-    public SearchConditionDto(Integer page, Integer pageSize, String customerName, String customerPhone, String reservationDate) {
+    public SearchConditionDto(Integer page, Integer pageSize, Integer offset, String customerName, String customerPhone, String reservationDate) {
         this.page = page;
         this.pageSize = pageSize;
+        this.offset = offset;
         this.customerName = customerName;
         this.customerPhone = customerPhone;
         this.reservationDate = reservationDate;
@@ -26,14 +32,13 @@ public class SearchConditionDto {
         this.customerName = customerName;
     }
 
-//    public SearchConditionDto(String customerName, String customerPhone) {
-//        this.customerName = customerName;
-//        this.customerPhone = customerPhone;
-//    }
-
-//    public SearchConditionDto(Date reservationDate) {
-//        this.reservationDate = reservationDate;
-//    }
+    public SearchConditionDto(Integer pageSize, Integer offset, String customerName, String customerPhone, String reservationDate) {
+        this.pageSize = pageSize;
+        this.offset = offset;
+        this.customerName = customerName;
+        this.customerPhone = customerPhone;
+        this.reservationDate = reservationDate;
+    }
 
     public Integer getPage() {
         return page;
@@ -49,6 +54,14 @@ public class SearchConditionDto {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
     }
 
     public String getCustomerName() {
@@ -75,11 +88,15 @@ public class SearchConditionDto {
         this.reservationDate = reservationDate;
     }
 
-    public Integer getOffset() {
-        return offset;
-    }
-
-    public void setOffset(Integer offset) {
-        this.offset = offset;
+    @Override
+    public String toString() {
+        return "SearchConditionDto{" +
+                "page=" + page +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", customerName='" + customerName + '\'' +
+                ", customerPhone='" + customerPhone + '\'' +
+                ", reservationDate='" + reservationDate + '\'' +
+                '}';
     }
 }

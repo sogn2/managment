@@ -22,6 +22,10 @@ public class BookingDto {
     public BookingDto() {
     }
 
+    public BookingDto(int reservationNumber) {
+        this.reservationNumber = reservationNumber;
+    }
+
     public BookingDto(String reservationDate) {
         this.reservationDate = reservationDate;
     }

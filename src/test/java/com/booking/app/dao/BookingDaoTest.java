@@ -24,26 +24,30 @@ public class BookingDaoTest {
     BookingDao bookingDao;
     @Test
     public void BookingInsert() throws Exception {
-        for(int i=0; i<9; i++) {
-            CustomerDto customerDto = new CustomerDto(i+"김재욱"+i, "010-"+i+"5-423"+i);
+        for(int i=0; i<10; i++) {
+            CustomerDto customerDto = new CustomerDto("개정보"+i, "010-"+i+"5-423"+i);
             assertTrue(bookingDao.CustomerInsert(customerDto) == 1);
             String s = "2020-02-09 15:30";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
             java.util.Date date = sdf.parse(s);
-            BookingDto bookingDto = new BookingDto(1, 13, 1, "요구", "2023-02-15 15:30", 'n');
+            BookingDto bookingDto = new BookingDto(1, 13, 1, "요구", "2023-01-16 +0"+i+":30", 'n');
             assertTrue(bookingDao.BookingInsert(bookingDto) == 1);
         }
     }
     @Test
-    public void BookingList(){
-        BookingDto bookingDto = new BookingDto();
+    public void BookingDetail(){
+        BookingDto bookingDto = new BookingDto(13);
         CustomerDto customerDto = new CustomerDto();
+        SearchConditionDto sc = new SearchConditionDto();
+          bookingDto.setReservationNumber(200);
+
         Map map = new HashMap();
-        map.put("bookingDto",bookingDto);
+        map.put("BookingDto",bookingDto);
+
         map.put("customerDto",customerDto);
 
-        List<BookingDto> list = bookingDao.bookingList(map);
-        assertTrue(list.size()>50);
+        bookingDao.bookingDetail(map);
+        System.out.println("aaaaa"+map);
     }
     @Test
     public void bookingSearchMap(){
@@ -77,6 +81,39 @@ public class BookingDaoTest {
 
         List<BookingDto> list = bookingDao.bookingSearch(sc);
         assertTrue(list.size()<=50);
+    }
+    @Test
+    public void BookingToday(){
+        BookingDto bookingDto = new BookingDto();
+        CustomerDto customerDto = new CustomerDto();
+        SearchConditionDto sc = new SearchConditionDto(1,10,"","","");
+        Map map = new HashMap();
+        map.put("bookingDto",bookingDto);
+        map.put("customerDto",customerDto);
+
+        List<BookingDto> list = bookingDao.bookingToday(sc);
+        assertTrue(list.size()<=50);
+    }
+    @Test
+    public void BookingTodayCount() throws Exception {
+        SearchConditionDto sc = new SearchConditionDto(1,10,"","","");
+
+        int count = bookingDao.bookingTodayCount(sc);
+        int count1 = bookingDao.bookingTodayVisitCount(sc);
+        double count3 = count;
+        double count4 = count1;
+        System.out.println(count3);
+        System.out.println(count);
+        System.out.println(count1/count3);
+        System.out.println(33.0/100.0);
+        System.out.println(100.0/33);
+        System.out.println(100.0/33.0);
+        System.out.println("count = " + count/6*0.01);
+        System.out.println("count33 = " +count+" :"+ count4/count3*100);
+        double v = (count1 / count) * 100.0;
+        System.out.println("count = " +  v);
+        double a =  count1/count3*100;
+        System.out.println(a);
     }
    /*   @Test
     public void BookingSearchNameAndPhone(){

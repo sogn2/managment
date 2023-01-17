@@ -84,16 +84,52 @@ public class BookingController {
             m.addAttribute("list", list);
             m.addAttribute("ph", pageHandler);
 
-
+            System.out.println(sc);
 
             return "boardList";
 
         } catch (Exception e) {
-//            throw new RuntimeException(e);
             e.printStackTrace();
             return "0";
         }
 
     }
+    @GetMapping("/today")
+    public String todayList(SearchConditionDto sc, Model m, HttpServletRequest request) {
+        try {
+            Integer page = sc.getPage();
+            Integer pageSize = sc.getPageSize();
 
+
+            // null 값 들어왔을때 대비
+            if(page==null) {page=1; sc.setPage(1);}
+            if(pageSize==null) {pageSize=10; sc.setPageSize(10);}
+
+
+            // 종 게시물 개수 구해서
+            int totalCount = bookingService.bookingTodayCount(sc);
+            System.out.println("totalCount22: " + totalCount);
+
+            // 페이징 계산하기(마지막 페이지가 몇번째인지)
+            PageHandler pageHandler = new PageHandler(totalCount, page, pageSize);
+            System.out.println("pageHandler22 : " + pageHandler);
+
+            BookingDto bookingDto = new BookingDto();
+            CustomerDto customerDto = new CustomerDto();
+
+            List<BookingDto> todayList = bookingService.bookingToday(sc);
+
+            m.addAttribute("list", todayList);
+            m.addAttribute("ph", pageHandler);
+
+
+
+            return "todayList";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0";
+        }
+
+    }
 }

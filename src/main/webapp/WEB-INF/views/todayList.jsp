@@ -14,9 +14,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/admin/img/favicon.ico" />
 
-    <title>금일 예약 현황</title>
+    <title>PT Pass Admin - Manage passes</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -384,55 +384,55 @@
                                         </thead>
                                         <tbody>
                                         <c:forEach items="${list}" var="booking">
-                                        <tr>
-                                            <td>${booking.reservationNumber}</td>
-                                            <td>${booking.reservationDate}</td>
-                                            <td>${booking.customerName}</td>
-                                            <td>${booking.customerPhone}</td>
-                                            <td>${booking.personnel}</td>
-                                            <td>${booking.requirements}</td>
-                                            <td>
-<%--                                                    ${booking.visitStatus eq 'N'?'방문안함':'방문함'}--%>
-                                                <c:choose>
-                                                    <c:when test="${booking.visitStatus eq 'Y'}">
-                                                        방문함
-                                                    </c:when>
-                                                    <c:when test="${booking.visitStatus eq 'N'}">
-                                                        방문안함
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        취소
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </td>
-                                            <td><input class="btn btn-primary" type="submit" value="수정"> <input class="btn btn-secondary" type="submit" value="삭제"></td>
-                                        </tr>
+                                            <tr>
+                                                <td>${booking.reservationNumber}</td>
+                                                <td>${booking.reservationDate}</td>
+                                                <td>${booking.customerName}</td>
+                                                <td>${booking.customerPhone}</td>
+                                                <td>${booking.personnel}</td>
+                                                <td>${booking.requirements}</td>
+                                                <td>
+                                                        <%--                                                    ${booking.visitStatus eq 'N'?'방문안함':'방문함'}--%>
+                                                    <c:choose>
+                                                        <c:when test="${booking.visitStatus eq 'Y'}">
+                                                            방문함
+                                                        </c:when>
+                                                        <c:when test="${booking.visitStatus eq 'N'}">
+                                                            방문안함
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            취소
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </td>
+                                                <td><input class="btn btn-primary" type="submit" value="수정"> <input class="btn btn-secondary" type="submit" value="삭제"></td>
+                                            </tr>
                                         </c:forEach>
                                         </tbody>
                                     </table>
 
-<%--                                    <nav aria-label="Page navigation example">--%>
+                                    <%--                                    <nav aria-label="Page navigation example">--%>
                                     <c:forEach items="${list}" var="booking"></c:forEach>
-                                        <ul class="pagination page_bar">
-                                            <li class="page-item">
-                                                <c:if test="${ph.showPrev}">
-                                                <a href="<c:url value='/list?page=${ph.beginPage-1}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' />" class="page-link">[이전]</a>
+                                    <ul class="pagination page_bar">
+                                        <li class="page-item">
+                                            <c:if test="${ph.showPrev}">
+                                                <a href="<c:url value='/today?page=${ph.beginPage-1}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' />" class="page-link">[이전]</a>
                                             </c:if>
-                                            </li>
+                                        </li>
 
-                                            <li class="page-item">
-                                                <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
-                                                <a href="<c:url value='/list?page=${i}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' /> " class="page-link ${i==ph.page?"pageActive":""}"> ${i}</a>
-                                            </li>
-                                            </c:forEach>
-                                            <li class="page-item">
+                                        <li class="page-item">
+                                            <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
+                                            <a href="<c:url value='/today?page=${i}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' /> " class="page-link ${i==ph.page?"pageActive":""}"> ${i}</a>
+                                        </li>
+                                        </c:forEach>
+                                        <li class="page-item">
                                             <c:if test="${ph.showNext}">
-                                                <a href="<c:url value='/list?page=${ph.endPage+1}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' />" class="page-link">[다음]</a>
+                                                <a href="<c:url value='/today?page=${ph.endPage+1}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' />" class="page-link">[다음]</a>
                                             </c:if>
-                                            </li>
+                                        </li>
 
-                                        </ul>
-<%--                                    </nav>--%>
+                                    </ul>
+                                    <%--                                    </nav>--%>
                                 </div>
                             </div>
                         </div>
@@ -473,13 +473,13 @@
 
                     </div>
                 </div>
-                </div>
             </div>
         </div>
-
-        <!-- Fade In Utility -->
-
     </div>
+
+    <!-- Fade In Utility -->
+
+</div>
 
 </div>
 
@@ -521,7 +521,7 @@
             form.attr("action", "<c:url value='/write'/>");
             form.attr("method", "post");
             // if(formCheck())
-                form.submit();
+            form.submit();
         });
     });
 </script>

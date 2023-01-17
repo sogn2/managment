@@ -1,5 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<c:set var="logInOutLink" value="${ sessionScope.id==null ? '/login/login':'/login/logout' }" />
+<c:set var="logInOutTxt" value="${ sessionScope.id==null ? 'login':'logout' }" />
+
+<c:set var="userId" value="${ pageContext.request.getSession(false).getAttribute('id')==null ? '':pageContext.request.getSession(false).getAttribute('id') }" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,7 +44,7 @@
 	<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 		<!-- Sidebar - Brand -->
-		<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+		<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
 			<div class="sidebar-brand-icon rotate-n-15">
 				<i class="fas fa-laugh-wink"></i>
 			</div>
@@ -50,7 +56,7 @@
 
 		<!-- Nav Item - Dashboard -->
 		<li class="nav-item active">
-			<a class="nav-link" href="index.html">
+			<a class="nav-link" href="/">
 				<i class="fas fa-fw fa-tachometer-alt"></i>
 				<span>Dashboard</span></a>
 		</li>
@@ -63,39 +69,18 @@
 			Interface
 		</div>
 
-		<!-- Nav Item - Pages Collapse Menu -->
+		<!-- Nav Item - Tables -->
 		<li class="nav-item">
-			<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-			   aria-expanded="true" aria-controls="collapseTwo">
-				<i class="fas fa-fw fa-cog"></i>
-				<span>Components</span>
-			</a>
-			<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-				<div class="bg-white py-2 collapse-inner rounded">
-					<h6 class="collapse-header">Custom Components:</h6>
-					<a class="collapse-item" href="buttons.html">Buttons</a>
-					<a class="collapse-item" href="cards.html">Cards</a>
-				</div>
-			</div>
+			<a class="nav-link" href="/today">
+				<i class="fas fa-fw fa-table"></i>
+				<span>당일 예약목록</span></a>
 		</li>
 
-		<!-- Nav Item - Utilities Collapse Menu -->
+		<!-- Nav Item - Tables -->
 		<li class="nav-item">
-			<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-			   aria-expanded="true" aria-controls="collapseUtilities">
-				<i class="fas fa-fw fa-wrench"></i>
-				<span>Utilities</span>
-			</a>
-			<div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-				 data-parent="#accordionSidebar">
-				<div class="bg-white py-2 collapse-inner rounded">
-					<h6 class="collapse-header">Custom Utilities:</h6>
-					<a class="collapse-item" href="utilities-color.html">Colors</a>
-					<a class="collapse-item" href="utilities-border.html">Borders</a>
-					<a class="collapse-item" href="utilities-animation.html">Animations</a>
-					<a class="collapse-item" href="utilities-other.html">Other</a>
-				</div>
-			</div>
+			<a class="nav-link" href="/list">
+				<i class="fas fa-fw fa-table"></i>
+				<span>전체 예약목록</span></a>
 		</li>
 
 		<!-- Divider -->
@@ -149,12 +134,7 @@
 			<button class="rounded-circle border-0" id="sidebarToggle"></button>
 		</div>
 
-		<!-- Sidebar Message -->
-		<div class="sidebar-card d-none d-lg-flex">
-			<img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-			<p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-			<a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-		</div>
+
 
 	</ul>
 	<!-- End of Sidebar -->
@@ -174,13 +154,19 @@
 				</button>
 
 				<!-- Topbar Search -->
-				<form
-						class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+				<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
 					<div class="input-group">
-						<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-							   aria-label="Search" aria-describedby="basic-addon2">
+
+						<input type="text" id="reservationDate" class="form-control bg-light border-0 small" value="${param.reservationDate}" placeholder="예약일">
+
+
+						<input type="text" id="customerName" class="form-control bg-light border-0 small" value="${param.customerName}" placeholder="이름">
+
+						<input type="text" id="customerPhone" class="form-control bg-light border-0 small" value="${param.customerPhone}" placeholder="휴대폰">
+						<!-- <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                               aria-label="Search" aria-describedby="basic-addon2"> -->
 						<div class="input-group-append">
-							<button class="btn btn-primary" type="button">
+							<button type="button" class="btn btn-primary" id="btn_search" name="btn_search">
 								<i class="fas fa-search fa-sm"></i>
 							</button>
 						</div>
@@ -822,7 +808,17 @@
 <!-- Page level custom scripts -->
 <script src="/js/demo/chart-area-demo.js"></script>
 <script src="/js/demo/chart-pie-demo.js"></script>
+<script>
+	$(document).ready(function() {
+		$('#btn_search').on("click", function(){
+			<%--alert("<c:url value='/board/list'/>?page=${page}&pageSize=${pageSize}");--%>
 
+			location.href = "<c:url value='/list'/>?page=1&pageSize=${pageSize}&customerName="+$('#customerName').val().trim()+"&customerPhone="+$('#customerPhone').val().trim()+"&reservationDate="+$('#reservationDate').val().trim();
+
+		})
+
+	});
+</script>
 </body>
 
 </html>

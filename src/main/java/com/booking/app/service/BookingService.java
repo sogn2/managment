@@ -22,9 +22,9 @@ public class BookingService {
     public  int customerInsert(CustomerDto customerDto) throws Exception {
         return bookingDao.CustomerInsert(customerDto);
     }
-    public List<BookingDto> bookingList(Map map) throws Exception {
-        return bookingDao.bookingList(map);
-    }
+//    public BookingDto bookingDetail(Map map) throws Exception {
+//        return bookingDao.bookingDetail(map);
+//    }
     public List<BookingDto> bookingSearch(SearchConditionDto dto){
         return bookingDao.bookingSearch(dto);
     }
@@ -33,5 +33,11 @@ public class BookingService {
     }
     public int getSearchResultCnt(SearchConditionDto sc) throws Exception {
         return bookingDao.searchSelectCount(sc);
+    }
+    public List<BookingDto> bookingToday(SearchConditionDto sc){
+        return bookingDao.bookingToday(sc);
+    }
+    public int bookingTodayCount(SearchConditionDto sc) throws Exception {
+        return bookingDao.bookingTodayCount(sc);
     }
 }

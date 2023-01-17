@@ -14,9 +14,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/x-icon" href="/admin/img/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
 
-    <title>PT Pass Admin - Manage passes</title>
+    <title>금일 예약 현황</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -39,23 +39,23 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-    <!-- slider var -->
-
+    <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
-            <div class="sidebar-brand-icon">
-                <i class="fas fa-running"></i>
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-laugh-wink"></i>
             </div>
-            <div class="sidebar-brand-text mx-3">Pass Admin</div>
+            <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
         </a>
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item">
-            <a class="nav-link" href="/admin">
+        <li class="nav-item active">
+            <a class="nav-link" href="/">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>
@@ -65,55 +65,86 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            your gym
+            Interface
+        </div>
+
+        <!-- Nav Item - Tables -->
+        <li class="nav-item">
+            <a class="nav-link" href="/today">
+                <i class="fas fa-fw fa-table"></i>
+                <span>당일 예약목록</span></a>
+        </li>
+
+        <!-- Nav Item - Tables -->
+        <li class="nav-item">
+            <a class="nav-link" href="/list">
+                <i class="fas fa-fw fa-table"></i>
+                <span>전체 예약목록</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Addons
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-dumbbell"></i>
-                <span>Pass</span></a>
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+               aria-expanded="true" aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Pages</span>
+            </a>
+            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Login Screens:</h6>
+                    <a class="collapse-item" href="login.html">Login</a>
+                    <a class="collapse-item" href="register.html">Register</a>
+                    <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Other Pages:</h6>
+                    <a class="collapse-item" href="404.html">404 Page</a>
+                    <a class="collapse-item" href="blank.html">Blank Page</a>
+                </div>
+            </div>
         </li>
+
+        <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-user"></i>
-                <span>Users</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-users"></i>
-                <span>User Groups</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="charts.html">
                 <i class="fas fa-fw fa-chart-area"></i>
-                <span>Statistics</span></a>
+                <span>Charts</span></a>
         </li>
+
+        <!-- Nav Item - Tables -->
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="tables.html">
                 <i class="fas fa-fw fa-table"></i>
-                <span>Notice</span></a>
+                <span>Tables</span></a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Settings</span></a>
-        </li>
-
+        <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
+
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
 
+
+
     </ul>
+    <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
+
         <!-- Main Content -->
         <div id="content">
-            <!-- top var -->
+
+            <!-- Topbar -->
             <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                 <!-- Sidebar Toggle (Topbar) -->
@@ -134,7 +165,7 @@
                         <!-- <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                                aria-label="Search" aria-describedby="basic-addon2"> -->
                         <div class="input-group-append">
-                            <button type="button" class="btn btn-primary fas fa-search fa-sm" id="btn_search" name="btn_search">
+                            <button type="button" class="btn btn-primary" id="btn_search" name="btn_search">
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
                         </div>
@@ -235,7 +266,7 @@
                             </h6>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="/admin/img/undraw_profile_1.svg"
+                                    <img class="rounded-circle" src="img/undraw_profile_1.svg"
                                          alt="...">
                                     <div class="status-indicator bg-success"></div>
                                 </div>
@@ -247,7 +278,7 @@
                             </a>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="/admin/img/undraw_profile_2.svg"
+                                    <img class="rounded-circle" src="img/undraw_profile_2.svg"
                                          alt="...">
                                     <div class="status-indicator"></div>
                                 </div>
@@ -259,7 +290,7 @@
                             </a>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="/admin/img/undraw_profile_3.svg"
+                                    <img class="rounded-circle" src="img/undraw_profile_3.svg"
                                          alt="...">
                                     <div class="status-indicator bg-warning"></div>
                                 </div>
@@ -291,9 +322,9 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">김지수</span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
                             <img class="img-profile rounded-circle"
-                                 src="/admin/img/undraw_profile_3.svg">
+                                 src="img/undraw_profile.svg">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -381,21 +412,22 @@
                                     </table>
 
 <%--                                    <nav aria-label="Page navigation example">--%>
+                                    <c:forEach items="${list}" var="booking"></c:forEach>
                                         <ul class="pagination page_bar">
                                             <li class="page-item">
                                                 <c:if test="${ph.showPrev}">
-                                                <a href="<c:url value='/list?page=${ph.beginPage-1}&pageSize=${ph.pageSize}' />" class="page-link">[이전]</a>
+                                                <a href="<c:url value='/list?page=${ph.beginPage-1}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' />" class="page-link">[이전]</a>
                                             </c:if>
                                             </li>
 
                                             <li class="page-item">
                                                 <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
-                                                <a href="<c:url value='/list?page=${i}&pageSize=${ph.pageSize}' /> " class="page-link ${i==ph.page?"pageActive":""}"> ${i}</a>
+                                                <a href="<c:url value='/list?page=${i}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' /> " class="page-link ${i==ph.page?"pageActive":""}"> ${i}</a>
                                             </li>
                                             </c:forEach>
                                             <li class="page-item">
                                             <c:if test="${ph.showNext}">
-                                                <a href="<c:url value='/list?page=${ph.endPage+1}&pageSize=${ph.pageSize}' />" class="page-link">[다음]</a>
+                                                <a href="<c:url value='/list?page=${ph.endPage+1}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' />" class="page-link">[다음]</a>
                                             </c:if>
                                             </li>
 
@@ -430,6 +462,7 @@
                                         <option value="N" selected>방문안함</option>
                                         <option value="C" >취소</option>
                                     </select>
+                                    <input type="hidden" name="companyNumber" value="13">
                                     <div class="d-flex align-items-end flex-column">
                                         <button class="btn btn-primary" id="writeBtn" type="button">등록</button>
                                     </div>
@@ -474,7 +507,7 @@
         $('#btn_search').on("click", function(){
             <%--alert("<c:url value='/board/list'/>?page=${page}&pageSize=${pageSize}");--%>
 
-            location.href = "<c:url value='/list'/>?page=1&pageSize=${pageSize}&customerName="+$('#customerName').val().trim()+"&customerPhone="+$('#customerPhone').val().trim();
+            location.href = "<c:url value='/list'/>?page=1&pageSize=${pageSize}&customerName="+$('#customerName').val().trim()+"&customerPhone="+$('#customerPhone').val().trim()+"&reservationDate="+$('#reservationDate').val().trim();
 
             /* keyword 와 option 은 SearchCondition 의 이름과 맞춰줘야 한다. */
         })

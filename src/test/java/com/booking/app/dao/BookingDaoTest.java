@@ -10,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,24 +96,35 @@ public class BookingDaoTest {
     @Test
     public void BookingTodayCount() throws Exception {
         SearchConditionDto sc = new SearchConditionDto(1,10,"","","");
-
-        int count = bookingDao.bookingTodayCount(sc);
-        int count1 = bookingDao.bookingTodayVisitCount(sc);
-        double count3 = count;
-        double count4 = count1;
-        System.out.println(count3);
-        System.out.println(count);
-        System.out.println(count1/count3);
-        System.out.println(33.0/100.0);
-        System.out.println(100.0/33);
-        System.out.println(100.0/33.0);
-        System.out.println("count = " + count/6*0.01);
-        System.out.println("count33 = " +count+" :"+ count4/count3*100);
-        double v = (count1 / count) * 100.0;
-        System.out.println("count = " +  v);
-        double a =  count1/count3*100;
-        System.out.println(a);
+/*데이터 입력부*/
+        int todayTotal = bookingDao.bookingTodayCount(sc);
+        double todayTotal1 = todayTotal;
+        int today = bookingDao.bookingTodayVisitCount();
+        double today1 = today;
+        if (todayTotal!=0){
+        /*int형 숫자 계산*/
+        int result = today/todayTotal*100;
+//        (더블 타입 숫자계산)
+        double rusult1 =today1/todayTotal1*100;
+        /*더블타입 한거 int로 반환*/
+        int result2 = (int) rusult1;
+        /*데이터 정제*/
+        System.out.println(todayTotal+"여기"+today);
+        System.out.println(todayTotal1+"여기1 "+today1);
+        
+//        System.out.println("int형 계산한거"+result);
+        System.out.println("더블타입 계산한거 = " + rusult1);
+        System.out.println("더블타입 int로 반환한거 = " + result2);
+        }else {
+            System.out.println("전체일수가 0");
+        }
     }
+    @Test
+    public void bookingTotalVisit() throws Exception {
+        BookingDto dto = new BookingDto();
+        bookingDao.bookingTotalVisit(dto);
+    }
+
    /*   @Test
     public void BookingSearchNameAndPhone(){
 //        BookingDto bookingDto = new BookingDto();
@@ -141,9 +151,25 @@ public class BookingDaoTest {
     }*/
     @Test
     public void searchSelectCount() throws Exception {
-        SearchConditionDto sc = new SearchConditionDto(1,10,"1",null,null);
+        SearchConditionDto sc = new SearchConditionDto(1,10,null,null,null);
+        BookingDto dto= new BookingDto();
+        int total = bookingDao.searchSelectCount(sc);
+        double total1 = total;
+        int count = bookingDao.bookingTotalVisit(dto);//당일 방문 횟수
+        double count1= count;
 
-        int count = bookingDao.searchSelectCount(sc);
+        double result =count1/total1*100;
+        /*더블타입 한거 int로 반환*/
+        int result2 = (int) result;
+
+        System.out.println(total);
         System.out.println("count = " + count);
+        System.out.println(total1+" "+count1);
+        System.out.println("int형 계산"+count/total*100);
+        System.out.println("double 계산"+count1/total1*100);
+        System.out.println("3형 계산"+count1/total*100);
+        System.out.println("4e 계산"+count/total1*100);
+        System.out.println(result);
+        System.out.println(result2);
     }
 }

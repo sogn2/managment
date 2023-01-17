@@ -34,7 +34,7 @@
           WHERE reservationDate LIKE CONCAT('%',DATE_FORMAT(now(),'%Y-%m-%d'),'%') AND companyNumber = 13
     </select>
     <!--당일 예약 방문 개수-->
-    <select id="bookingTodayVisitCount" resultType="int" parameterType="SearchConditionDto">
+    <select id="bookingTodayVisitCount" resultType="int">
         SELECT count(*) FROM booking  a INNER JOIN customer  b on a.customerNumber = b.customerNumber2
         WHERE reservationDate LIKE CONCAT('%',DATE_FORMAT(now(),'%Y-%m-%d'),'%') AND companyNumber = 13 AND visitStatus='Y'
         order by reservationDate asc, reservationNumber asc
@@ -66,8 +66,8 @@
 
     <!--전체 & search 결과게시글 개수-->
     <select id="searchSelectCount" resultType="int" parameterType="SearchConditionDto">
-        select count(*) FROM booking a INNER JOIN customer b on a.customerNumber = b.customerNumber2
-        where true AND companyNumber = 13
+        SELECT count(*) FROM booking a INNER JOIN customer b ON a.customerNumber = b.customerNumber2
+        WHERE TRUE AND companyNumber = 13
         <if test="reservationDate != null">
             <!-- AND  a.reservationDate <![CDATA[ <= ]]>  #{reservationDate}-->
             AND a.reservationDate LIKE CONCAT('%',#{reservationDate},'%')
@@ -79,7 +79,11 @@
             AND b.customerPhone LIKE CONCAT(#{customerPhone},"%")
         </if>
     </select>
-
+    <select id="searchSelectVisitCount" resultType="int" parameterType="BookingDto">
+        SELECT count(*) FROM booking  a INNER JOIN customer  b on a.customerNumber = b.customerNumber2
+        WHERE companyNumber = 13 AND visitStatus='Y'
+        ORDER BY reservationDate ASC, reservationNumber ASC
+    </select>
     <!--검색-->
     <select id="bookingSearchMap" resultType="map" parameterType="map">
         select * FROM booking a INNER JOIN customer b on a.customerNumber = b.customerNumber2
@@ -94,7 +98,6 @@
         <if test="customerPhone != null">
             AND b.customerPhone LIKE CONCAT(#{customerPhone},"%")
         </if>
-
     </select>
 
     <delete id="delete" parameterType="map">

@@ -40,16 +40,21 @@ public class BookingDao {
         return session.selectList(namespace+"bookingToday",sc);
     }
 /*금일 방문 횟수*/
-    public int bookingTodayVisitCount(SearchConditionDto sc) throws  Exception{
-        return session.selectOne(namespace+"bookingTodayVisitCount",sc);
+    public int bookingTodayVisitCount() throws  Exception{
+        return session.selectOne(namespace+"bookingTodayVisitCount");
     }
+    /*금일 전체 예약 횟수*/
     public int bookingTodayCount(SearchConditionDto sc) throws  Exception{
         return session.selectOne(namespace+"bookingTodayCount",sc);
     }
     public List<BookingDto> bookingSearch(SearchConditionDto sc){
         return session.selectList(namespace+"bookingSearch",sc);
     }
+    /*방문 전체 횟수*/
     public int searchSelectCount(SearchConditionDto sc) throws  Exception{
         return session.selectOne(namespace+"searchSelectCount",sc);
+    }
+    public int bookingTotalVisit(BookingDto dto) throws  Exception{
+        return session.selectOne(namespace+"searchSelectVisitCount",dto);
     }
 }

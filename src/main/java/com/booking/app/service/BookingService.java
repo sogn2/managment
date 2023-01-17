@@ -31,13 +31,24 @@ public class BookingService {
     public List<BookingDto> bookingSearchMap(Map map){
         return bookingDao.bookingSearchMap(map);
     }
+
     public int getSearchResultCnt(SearchConditionDto sc) throws Exception {
         return bookingDao.searchSelectCount(sc);
+    }
+/*전체 방문 현황*/
+    public int bookingTotalVisit (BookingDto dto) throws Exception {
+        return bookingDao.bookingTotalVisit(dto);
     }
     public List<BookingDto> bookingToday(SearchConditionDto sc){
         return bookingDao.bookingToday(sc);
     }
+
+/*당일 예약 전체 현황*/
     public int bookingTodayCount(SearchConditionDto sc) throws Exception {
         return bookingDao.bookingTodayCount(sc);
+    }
+/*당일 방문 현황*/
+    public int bookingTodayVisitCount() throws Exception {
+        return bookingDao.bookingTodayVisitCount();
     }
 }

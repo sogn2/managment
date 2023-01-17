@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -131,5 +132,43 @@ public class BookingController {
             return "0";
         }
 
+    }
+    @GetMapping("/bookingTodayVisitCount")
+    @ResponseBody
+    public  int[] bookingTodayVisitCount() throws Exception {
+        SearchConditionDto sc = new SearchConditionDto();
+        int todayTotal = bookingService.bookingTodayCount(sc);
+        double todayTotal1 = todayTotal;
+        int today = bookingService.bookingTodayVisitCount();
+        double today1 = today;
+        int[] tov = {0, 0, 0};
+        if(todayTotal!=0) {
+            int result = today / todayTotal * 100;
+            double rusult1 = today1 / todayTotal1 * 100;
+            int result2 = (int) rusult1;
+
+            tov = new int[]{today, todayTotal, result2};
+        }
+        return tov;
+    }
+    @GetMapping("/bookingTotalVisitCount")
+    @ResponseBody
+    public  int[] bookingTotalVisitCount() throws Exception {
+        BookingDto dto = new BookingDto();
+        SearchConditionDto sc = new SearchConditionDto();
+        int totalVisit = bookingService.getSearchResultCnt(sc);
+        double totalVisitDouble = totalVisit;
+        int visit = bookingService.bookingTotalVisit(dto);
+        double visit1 = visit;
+        int[] totalVisitArr = {0, 0, 0};
+        if(totalVisit!=0) {
+            int result = visit / totalVisit * 100;
+            double rusult1 = visit1 / totalVisitDouble * 100;
+            int result2 = (int) rusult1;
+
+            totalVisitArr = new int[]{visit, totalVisit, result2};
+            System.out.println(totalVisitArr);
+        }
+        return totalVisitArr;
     }
 }

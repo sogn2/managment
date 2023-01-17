@@ -356,8 +356,8 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-1 text-gray-800">예약현황</h1>
-                <p class="mb-4">예약 현황을 보여드립니다</p>
+                <h1 class="h3 mb-1 text-gray-800">당일 예약 목록</h1>
+                <p class="mb-4">당일 예약 목록을 보여드립니다</p>
                 <!-- Content Row -->
                 <div class="row">
 

@@ -22,6 +22,16 @@ public class BookingDto {
     public BookingDto() {
     }
 
+    public BookingDto(int reservationNumber, Integer customerNumber, Integer companyNumber, Integer personnel, String requirements, String reservationDate, char visitStatus) {
+        this.reservationNumber = reservationNumber;
+        this.customerNumber = customerNumber;
+        this.companyNumber = companyNumber;
+        this.personnel = personnel;
+        this.requirements = requirements;
+        this.reservationDate = reservationDate;
+        this.visitStatus = visitStatus;
+    }
+
     public BookingDto(int reservationNumber) {
         this.reservationNumber = reservationNumber;
     }

@@ -384,55 +384,57 @@
                                         </thead>
                                         <tbody>
                                         <c:forEach items="${list}" var="booking">
-                                        <tr>
-                                            <td>${booking.reservationNumber}</td>
-                                            <td>${booking.reservationDate}</td>
-                                            <td>${booking.customerName}</td>
-                                            <td>${booking.customerPhone}</td>
-                                            <td>${booking.personnel}</td>
-                                            <td>${booking.requirements}</td>
-                                            <td>
-<%--                                                    ${booking.visitStatus eq 'N'?'방문안함':'방문함'}--%>
-                                                <c:choose>
-                                                    <c:when test="${booking.visitStatus eq 'Y'}">
-                                                        방문함
-                                                    </c:when>
-                                                    <c:when test="${booking.visitStatus eq 'N'}">
-                                                        방문안함
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        취소
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </td>
-                                            <td><input class="btn btn-primary" type="submit" value="수정"> <input class="btn btn-secondary" type="submit" value="삭제"></td>
-                                        </tr>
+                                            <tr class="cc">
+                                                <td class="bb">${booking.reservationNumber}</td>
+                                                <td>${booking.reservationDate}</td>
+                                                <td>${booking.customerName}</td>
+                                                <td>${booking.customerPhone}</td>
+                                                <td>${booking.personnel}</td>
+                                                <td>${booking.requirements}</td>
+                                                <td>
+                                                        <%--                                                    ${booking.visitStatus eq 'N'?'방문안함':'방문함'}--%>
+                                                    <c:choose>
+                                                        <c:when test="${booking.visitStatus eq 'Y'}">
+                                                            방문함
+                                                        </c:when>
+                                                        <c:when test="${booking.visitStatus eq 'N'}">
+                                                            방문안함
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            취소
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </td>
+                                                <td>
+
+                                                    <input class="btn btn-primary aa" type="button" value="수정"> <input  class="btn btn-secondary bbb" type="button" value="삭제"></td>
+                                            </tr>
                                         </c:forEach>
                                         </tbody>
                                     </table>
 
-<%--                                    <nav aria-label="Page navigation example">--%>
+                                    <%--                                    <nav aria-label="Page navigation example">--%>
                                     <c:forEach items="${list}" var="booking"></c:forEach>
-                                        <ul class="pagination page_bar">
-                                            <li class="page-item">
-                                                <c:if test="${ph.showPrev}">
+                                    <ul class="pagination page_bar">
+                                        <li class="page-item">
+                                            <c:if test="${ph.showPrev}">
                                                 <a href="<c:url value='/list?page=${ph.beginPage-1}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' />" class="page-link">[이전]</a>
                                             </c:if>
-                                            </li>
+                                        </li>
 
-                                            <li class="page-item">
-                                                <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
-                                                <a href="<c:url value='/list?page=${i}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' /> " class="page-link ${i==ph.page?"pageActive":""}"> ${i}</a>
-                                            </li>
-                                            </c:forEach>
-                                            <li class="page-item">
+                                        <li class="page-item">
+                                            <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
+                                            <a href="<c:url value='/list?page=${i}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' /> " class="page-link ${i==ph.page?"pageActive":""}"> ${i}</a>
+                                        </li>
+                                        </c:forEach>
+                                        <li class="page-item">
                                             <c:if test="${ph.showNext}">
                                                 <a href="<c:url value='/list?page=${ph.endPage+1}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' />" class="page-link">[다음]</a>
                                             </c:if>
-                                            </li>
+                                        </li>
 
-                                        </ul>
-<%--                                    </nav>--%>
+                                    </ul>
+                                    <%--                                    </nav>--%>
                                 </div>
                             </div>
                         </div>
@@ -445,26 +447,33 @@
                             </div>
                             <div class="card-body">
                                 <form id="form" action=""  method="post">
+                                     <input type="hidden"  id="reservationNumberList">
 
+                                    <input type="hidden"  id="customerNumberList">
                                     <div class="small mb-1" >고객 이름</div>
-                                    <input name="customerName" class="form-control mb-2" type="text" placeholder="이름" />
+                                    <input id="customerNameList" name="customerName" class="form-control mb-2" type="text" placeholder="이름" />
                                     <div class="small mb-1">휴대폰번호</div>
-                                    <input name="customerPhone" class="form-control mb-2" type="text" placeholder="010-0000-0000" />
+                                    <input id="customerPhoneList" name="customerPhone" class="form-control mb-2" type="text" placeholder="010-0000-0000" />
                                     <div class="small mb-1">예약 일시</div>
-                                    <input name="reservationDate" class="form-control mb-2" type="text" placeholder="2022-09-01 00:00" />
+                                    <input id="reservationDateList" name="reservationDate" class="form-control mb-2" type="text" placeholder="2022-09-01 00:00" />
                                     <div class="small mb-1">인원수</div>
-                                    <input name="personnel" class="form-control mb-2" type="text" placeholder="인원수" />
+                                    <input id="personnelList" name="personnel" class="form-control mb-2" type="text" placeholder="인원수" />
                                     <div class="small mb-1">요구사항</div>
-                                    <input name="requirements" class="form-control mb-2" type="text" placeholder="요구사항" />
+                                    <input id="requirementsList" name="requirements" class="form-control mb-2" type="text" placeholder="요구사항" />
                                     <div class="small mb-1">요구사항</div>
-                                    <select class="form-control" name="visitStatus">
+                                    <select id="visitStatusList" class="form-control" name="visitStatus">
                                         <option value="Y" >방문함</option>
                                         <option value="N" selected>방문안함</option>
                                         <option value="C" >취소</option>
                                     </select>
                                     <input type="hidden" name="companyNumber" value="13">
-                                    <div class="d-flex align-items-end flex-column">
+<%--                                    <div class="d-flex align-items-end flex-column">--%>
+                                    <div class="small mb-2"></div>
+                                    <div class="btn-group d-flex align-items-center justify-content-center" role="group" aria-label="Basic example">
+
+                                        <button class="btn btn-success" id="modifyBtn" type="button">수정</button>
                                         <button class="btn btn-primary" id="writeBtn" type="button">등록</button>
+
                                     </div>
 
                                 </form>
@@ -473,13 +482,13 @@
 
                     </div>
                 </div>
-                </div>
             </div>
         </div>
-
-        <!-- Fade In Utility -->
-
     </div>
+
+    <!-- Fade In Utility -->
+
+</div>
 
 </div>
 
@@ -493,6 +502,8 @@
 <!-- End of Content Wrapper -->
 
 </div>
+<div class="col-lg-12" id="ex1_Result1" ></div>
+<div class="col-lg-12" id="ex1_Result2" ></div>
 <!-- End of Page Wrapper -->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -503,26 +514,107 @@
 <!-- Custom scripts for all pages-->
 <script src="/js/sb-admin-2.min.js"></script>
 <script>
+    /*삭제*/
+    $(".bbb").click(function(){
+
+        let td = $(this).parent().parent();
+        console.log("td"+td)
+        let tr = td.children(0);
+        console.log("tr"+tr);
+        let no = tr.eq(0).text();
+        console.log("no"+no);
+        alert("눌림"+no);
+
+        // 현재 클릭된 Row(<tr>)
+        /*   let tr = $(this);
+           let td = tr.children();
+
+           let no = td.eq(0).text();
+           console.log(no);*/
+
+        $.ajax({
+            url: "/remove",
+            type: "POST",
+            data: {"customerNumber2": no,
+                "reservationNumber": no},
+            success: function (data) {
+                // 예약번호
+                alert("삭제버튼눌림"+no)
+            }
+        });
+    });
+
+    /*등록*/
+    // 테이블의 Row 클릭시 값 가져오기
+    $(".aa").click(function(){
+        let td = $(this).parent().parent();
+        console.log("td"+td)
+        let tr = td.children(0);
+        console.log("tr"+tr);
+        let no = tr.eq(0).text();
+        let no1 = tr.eq(1).text();
+        console.log("no 여기 "+no);
+        console.log("no1 여기1 ="+no1);
+        $("#reservationNumberList").prop("name","reservationNumber");
+
+        $("#customerNumberList").prop("name","customerNumber");
+        // 현재 클릭된 Row(<tr>)
+        /*   let tr = $(this);
+           let td = tr.children();
+
+           let no = td.eq(0).text();
+           console.log(no);*/
+
+        $.ajax({
+            url: "/bookingDetail?reservationNumber="+no,
+            type: "GET",
+            // dataType: "json",
+            // data : JSON.stringify(person),
+            success: function (data) {
+                // 예약번호
+                $('#reservationNumberList').val(no);
+                $('#customerNumberList').val(no);
+                // 고객이름
+                $('#customerNameList').val(data.customerName);
+                // 고객전화번호
+                $('#customerPhoneList').val(data.customerPhone);
+                // 예약일
+                $('#reservationDateList').val(data.reservationDate);
+                // 인원수
+                $('#personnelList').val(data.personnel);
+                // 요구사항
+                $('#requirementsList').val(data.requirements);
+                // 방문여부
+                $("#visitStatusList").val(data.visitStatus).prop("selected", true);
+            }
+        });
+    });
+
     $(document).ready(function() {
         $('#btn_search').on("click", function(){
-            <%--alert("<c:url value='/board/list'/>?page=${page}&pageSize=${pageSize}");--%>
 
             location.href = "<c:url value='/list'/>?page=1&pageSize=${pageSize}&customerName="+$('#customerName').val().trim()+"&customerPhone="+$('#customerPhone').val().trim()+"&reservationDate="+$('#reservationDate').val().trim();
 
-            /* keyword 와 option 은 SearchCondition 의 이름과 맞춰줘야 한다. */
         })
-        // $('#customerPhone').on('keydown', function(e){
-        //     if(e.keyCode==13 && $('#btn_search').val().trim().length > 0) {
-        //         $('#btn_search').trigger('click');
-        //     }
-        // });
+
         $("#writeBtn").on("click", function(){
             let form = $("#form");
             form.attr("action", "<c:url value='/write'/>");
             form.attr("method", "post");
-            // if(formCheck())
-                form.submit();
+            form.submit();
         });
+        $("#modifyBtn").on("click", function(){
+            let form = $("#form");
+            form.attr("action", "<c:url value='/modify'/>");
+            form.attr("method", "post");
+            form.submit();
+        });
+        <%--$("#removeBtn").on("click", function(){--%>
+        <%--    let form = $("#form");--%>
+        <%--    form.attr("action", "<c:url value='/remove'/>");--%>
+        <%--    form.attr("method", "post");--%>
+        <%--    form.submit();--%>
+        <%--});--%>
     });
 </script>
 </body>

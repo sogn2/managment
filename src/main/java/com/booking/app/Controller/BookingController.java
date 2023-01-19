@@ -5,6 +5,7 @@ import com.booking.app.domain.CustomerDto;
 import com.booking.app.domain.PageHandler;
 import com.booking.app.domain.SearchConditionDto;
 import com.booking.app.service.BookingService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -57,7 +58,62 @@ public class BookingController {
             return "boardList";
         }
     }
+    /* 글쓰기 */
+    @PostMapping("/modify")
+    public String bookingUpdate(BookingDto bookingDto, CustomerDto customerDto, HttpSession session, Model m) {
 
+        try {
+//            String writer = (String) session.getAttribute("id");
+//            bookingDto.setWriter(writer);
+            int customer =  bookingService.customerUpdate(customerDto);
+            int booking= bookingService.bookingUpdate(bookingDto);
+
+//            if (booking != 1 && customer !=1){
+//                throw new Exception("게시글 수정 오류");
+//            }
+            System.out.println("booking = " + booking);
+            System.out.println("customer = " + customer);
+            return "redirect:/list";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            // 만약 try 에서 DB에 게시글 저장하다가 에러나면 다시 원래 글쓰던 화면으로 방금 정보 다 가지고 돌아가게 하기.
+            m.addAttribute("bookingDto", bookingDto);
+            m.addAttribute("customerDto", customerDto);
+            return "redirect:/boardList";
+        }
+    }
+    /*게시글 삭제*/
+    @PostMapping("/remove")
+    public String write(Integer customerNumber2,Integer reservationNumber) {
+
+        try {
+//            String writer = (String) session.getAttribute("id");
+//            bookingDto.setWriter(writer);
+            int booking =  bookingService.bookingDelete(reservationNumber);
+            System.out.println("booking = " + booking);
+
+            int customer= bookingService.customerDelete(customerNumber2);
+            System.out.println("customer = " + customer);
+
+
+            if (booking != 1 && customer !=1){
+                throw new Exception("게시글 삭제 오류");
+            }
+            System.out.println("booking = " + booking);
+
+            return "redirect:/list";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            // 만약 try 에서 DB에 게시글 저장하다가 에러나면 다시 원래 글쓰던 화면으로 방금 정보 다 가지고 돌아가게 하기.
+//            m.addAttribute("bookingDto", bookingDto);
+//            m.addAttribute("customerDto", customerDto);
+            return "boardList";
+        }
+    }
 
 
     @GetMapping("/list")
@@ -95,6 +151,18 @@ public class BookingController {
         }
 
     }
+    @GetMapping("/bookingDetail")
+    @ResponseBody
+    public  Map bookingDetail(Integer reservationNumber) throws Exception {
+
+
+
+        System.out.println(bookingService.bookingDetail(reservationNumber));
+        return bookingService.bookingDetail(reservationNumber);
+    }
+
+
+
     @GetMapping("/today")
     public String todayList(SearchConditionDto sc, Model m, HttpServletRequest request) {
         try {

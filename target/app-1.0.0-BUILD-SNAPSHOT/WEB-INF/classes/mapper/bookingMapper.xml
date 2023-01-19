@@ -17,7 +17,7 @@
         ((select max(customerNumber2) FROM customer), #{companyNumber}, #{personnel}, #{requirements}, #{reservationDate}, #{visitStatus}, now());
     </insert>
     <!--예약리스트 상세보기-->
-    <select id="bookingDetail" resultType="map" parameterType="BookingDto">
+    <select id="bookingDetail" resultType="map" parameterType="int">
         select * FROM booking a INNER JOIN customer b on a.customerNumber = b.customerNumber2
         WHERE TRUE AND companyNumber = 13 AND reservationNumber = #{BookingDto.reservationNumber}
     </select>
@@ -100,8 +100,29 @@
         </if>
     </select>
 
-    <delete id="delete" parameterType="map">
-        delete FROM booking where reservationNumber=267;
-        delete FROM customer where customerNumber2=267;
+    <delete id="bookingDelete" parameterType="map">
+        DELETE FROM booking WHERE reservationNumber=${reservationNumber};
     </delete>
+    <delete id="customerDelete" parameterType="map">
+        DELETE FROM customer WHERE customerNumber2=${customerNumber2};
+    </delete>
+    <update id="bookingUpdate" parameterType="BookingDto">
+        UPDATE booking
+        SET
+            personnel =#{personnel},
+            requirements = #{requirements},
+            reservationDate = #{reservationDate},
+            visitStatus = #{visitStatus}
+        WHERE reservationNumber = #{reservationNumber}
+        AND companyNumber = 13;
+    </update>
+
+    <!--  고객정보 수정  -->
+    <insert id="customerUpdate" parameterType="CustomerDto">
+        UPDATE customer
+        SET
+            customerName =#{customerName},
+            customerPhone = #{customerPhone}
+        WHERE customerNumber2 = #{customerNumber};
+    </insert>
 </mapper>

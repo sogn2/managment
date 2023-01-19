@@ -23,30 +23,60 @@ public class BookingDaoTest {
     BookingDao bookingDao;
     @Test
     public void BookingInsert() throws Exception {
-        for(int i=0; i<10; i++) {
-            CustomerDto customerDto = new CustomerDto("개정보"+i, "010-"+i+"5-423"+i);
+
+            CustomerDto customerDto = new CustomerDto("개정보", "010-5-423");
             assertTrue(bookingDao.CustomerInsert(customerDto) == 1);
             String s = "2020-02-09 15:30";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
             java.util.Date date = sdf.parse(s);
-            BookingDto bookingDto = new BookingDto(1, 13, 1, "요구", "2023-01-16 +0"+i+":30", 'n');
+            BookingDto bookingDto = new BookingDto(1, 13, 1, "요구", "2023-01-16 +0:30", 'n');
             assertTrue(bookingDao.BookingInsert(bookingDto) == 1);
-        }
+
+    }
+
+    @Test
+    public void BookingUpdate() throws Exception {
+
+            CustomerDto customerDto = new CustomerDto(1,"개정보", "010-5-423");
+        System.out.println(customerDto);
+            assertTrue(bookingDao.customerUpdate(customerDto) == 1);
+            String s = "2020-02-09 15:30";
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+//            java.util.Date date = sdf.parse(s);
+            BookingDto bookingDto = new BookingDto(1,1, 13, 10, "장그래 화이팅", "2023-01-16 0:30", 'Y');
+            assertTrue(bookingDao.bookingUpdate(bookingDto) == 1);
+
     }
     @Test
-    public void BookingDetail(){
-        BookingDto bookingDto = new BookingDto(13);
+    public void BookingDelete() throws Exception {
+        BookingDto bookingDto = new BookingDto();
         CustomerDto customerDto = new CustomerDto();
         SearchConditionDto sc = new SearchConditionDto();
-          bookingDto.setReservationNumber(200);
+        Integer reservationNumber=17;
 
+//        System.out.println( bookingDto.setReservationNumber(reservationNumber));
+        System.out.println("이거"+reservationNumber);
+            bookingDao.CustomerDelete(reservationNumber);
+        System.out.println( bookingDao.BookingDelete(reservationNumber));
+
+    }
+
+    @Test
+    public void BookingDetail(){
+        BookingDto bookingDto = new BookingDto();
+        CustomerDto customerDto = new CustomerDto();
+        SearchConditionDto sc = new SearchConditionDto();
+        Integer reservationNumber=17;
+        bookingDto.setReservationNumber(reservationNumber);
+        System.out.println("이거"+reservationNumber);
         Map map = new HashMap();
-        map.put("BookingDto",bookingDto);
+        map.put("bookingDto",bookingDto);
 
         map.put("customerDto",customerDto);
 
-        bookingDao.bookingDetail(map);
-        System.out.println("aaaaa"+map);
+        bookingDao.bookingDetail(reservationNumber);
+        System.out.println(bookingDao.bookingDetail(reservationNumber));
+
     }
     @Test
     public void bookingSearchMap(){

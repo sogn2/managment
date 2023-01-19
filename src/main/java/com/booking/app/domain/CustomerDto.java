@@ -9,6 +9,12 @@ public class CustomerDto {
     public CustomerDto() {
     }
 
+    public CustomerDto(int customerNumber, String customerName, String customerPhone) {
+        this.customerNumber = customerNumber;
+        this.customerName = customerName;
+        this.customerPhone = customerPhone;
+    }
+
     public CustomerDto(String customerName) {
         this.customerName = customerName;
     }

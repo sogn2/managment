@@ -26,10 +26,34 @@ public class BookingDao {
     public int BookingInsert(BookingDto dto) throws Exception {
         return session.insert(namespace+"bookingInsert", dto);
     }
-    /*리스트 조회인데 실질적으로 사용안함*/
-    public Map bookingDetail(Map map) {
+    /*고객 테이블 삭제*/
+    public int CustomerDelete(Integer customerNumber2) throws Exception {
+        Map map= new HashMap();
+        map.put("customerNumber2",customerNumber2);
+        System.out.println(customerNumber2);
+        return session.delete(namespace+"customerDelete", map);
+    }
+    /*예약 테이블 삭제*/
+    public int BookingDelete(Integer reservationNumber) throws Exception {
+        Map map= new HashMap();
+        map.put("reservationNumber",reservationNumber);
+        return session.delete(namespace+"bookingDelete", map);
+    }
+    /*고객 테이블 수정*/
+    public int customerUpdate(CustomerDto dto) throws Exception {
+        return session.update(namespace+"customerUpdate", dto);
+    }
+    /*예약 테이블 수정*/
+    public int bookingUpdate(BookingDto dto) throws Exception {
+        return session.update(namespace+"bookingUpdate", dto);
+    }
 
-        return session.selectOne(namespace+"bookingDetail",map);
+
+
+    /*리스트 조회인데 실질적으로 사용안함*/
+    public Map bookingDetail(Integer reservationNumber) {
+
+        return session.selectOne(namespace+"bookingDetail",reservationNumber);
     }
     /*search결과, 전체리스트 조회*/
     public List<BookingDto> bookingSearchMap(Map map) {

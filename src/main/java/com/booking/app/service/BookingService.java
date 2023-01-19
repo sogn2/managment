@@ -22,9 +22,27 @@ public class BookingService {
     public  int customerInsert(CustomerDto customerDto) throws Exception {
         return bookingDao.CustomerInsert(customerDto);
     }
-//    public BookingDto bookingDetail(Map map) throws Exception {
-//        return bookingDao.bookingDetail(map);
-//    }
+
+    /* 예약정보 수정 */
+    public  int bookingUpdate(BookingDto bookingDto) throws Exception {
+        return bookingDao.bookingUpdate(bookingDto);
+    }
+    /* 예약고객 정보수정 */
+    public  int customerUpdate(CustomerDto customerDto) throws Exception {
+        return bookingDao.customerUpdate(customerDto);
+    }
+    /* 예약정보 삭제 */
+    public  int bookingDelete(Integer reservationNumber) throws Exception {
+        return bookingDao.BookingDelete(reservationNumber);
+    }
+    /* 예약고객 정보삭제 */
+    public  int customerDelete(Integer customerNumber2) throws Exception {
+        return bookingDao.CustomerDelete(customerNumber2);
+    }
+
+    public Map bookingDetail(Integer reservationNumber) throws Exception {
+        return bookingDao.bookingDetail(reservationNumber);
+    }
     public List<BookingDto> bookingSearch(SearchConditionDto dto){
         return bookingDao.bookingSearch(dto);
     }

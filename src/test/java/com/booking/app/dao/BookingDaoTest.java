@@ -23,15 +23,15 @@ public class BookingDaoTest {
     BookingDao bookingDao;
     @Test
     public void BookingInsert() throws Exception {
-
-            CustomerDto customerDto = new CustomerDto("개정보", "010-5-423");
+        for (int i = 0; i<9;i++) {
+            CustomerDto customerDto = new CustomerDto("부식", "010-5-423"+i);
             assertTrue(bookingDao.CustomerInsert(customerDto) == 1);
             String s = "2020-02-09 15:30";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
             java.util.Date date = sdf.parse(s);
-            BookingDto bookingDto = new BookingDto(1, 13, 1, "요구", "2023-01-16 +0:30", 'n');
+            BookingDto bookingDto = new BookingDto(1, 13, 1, "요구", "2023-01-16 0:30", 'n');
             assertTrue(bookingDao.BookingInsert(bookingDto) == 1);
-
+        }
     }
 
     @Test

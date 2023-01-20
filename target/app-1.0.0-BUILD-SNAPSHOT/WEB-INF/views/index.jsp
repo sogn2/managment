@@ -432,7 +432,7 @@
 									<div class="col mr-2">
 										<div class="text-xs font-weight-bold text-success text-uppercase mb-1">
 											Earnings (Annual)</div>
-										<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+										<div class="h5 mb-0 font-weight-bold text-gray-800">개발예정</div>
 									</div>
 									<div class="col-auto">
 										<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -452,7 +452,7 @@
 									<div class="col mr-2">
 										<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
 											Pending Requests</div>
-										<div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+										<div class="h5 mb-0 font-weight-bold text-gray-800">개발예정</div>
 									</div>
 									<div class="col-auto">
 										<i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -504,7 +504,7 @@
 							<!-- Card Header - Dropdown -->
 							<div
 									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-								<h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+								<h6 class="m-0 font-weight-bold text-primary" id="vipCustomer-ten">상위 10명 고객</h6>
 								<div class="dropdown no-arrow">
 									<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
 									   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -749,60 +749,10 @@
 	</div>
 </div>
 
-<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="/js/amchartsCore.js"></script>
+<script src="/js/amchartsCharts.js"></script>
 
-<script>
-	/**
-	 * ---------------------------------------
-	 * This demo was created using amCharts 4.
-	 *
-	 * For more information visit:
-	 * https://www.amcharts.com/
-	 *
-	 * Documentation is available at:
-	 * https://www.amcharts.com/docs/v4/
-	 * ---------------------------------------
-	 */
 
-// Create chart instance
-	var chart = am4core.create("chartdiv", am4charts.PieChart);
-
-	// Add data
-	chart.data = [{
-		"country": "Lithuania",
-		"litres": 501.9
-	}, {
-		"country": "Czechia",
-		"litres": 301.9
-	}, {
-		"country": "Ireland",
-		"litres": 201.1
-	}, {
-		"country": "Germany",
-		"litres": 165.8
-	}, {
-		"country": "Australia",
-		"litres": 139.9
-	}, {
-		"country": "Austria",
-		"litres": 128.3
-	}, {
-		"country": "UK",
-		"litres": 99
-	}, {
-		"country": "Belgium",
-		"litres": 60
-	}, {
-		"country": "The Netherlands",
-		"litres": 50
-	}];
-
-	// Add and configure Series
-	var pieSeries = chart.series.push(new am4charts.PieSeries());
-	pieSeries.dataFields.value = "litres";
-	pieSeries.dataFields.category = "country";
-</script>
 <!-- Bootstrap core JavaScript-->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -851,7 +801,35 @@
 			console.log(data);
 		}
 	});
+	let today = new Date();
+	let year = today.getFullYear();
+	let month = ('0' + (today.getMonth() + 1)).slice(-2);
+	let day = ('0' + today.getDate()).slice(-2);
 
+	let dateString = year + '-' + month  + '-' + day;
+
+	document.getElementById("vipCustomer-ten").innerHTML=year+"년 상위 10명"
+
+	console.log(dateString);
+	$.ajax({
+		url: "/vipTopTen?reservationDate="+dateString,
+		type: "GET",
+		dataType: "JSON",
+		success: function (data) {
+			console.log(data);
+
+			var chart = am4core.create("chartdiv", am4charts.PieChart);
+
+			chart.data = data;
+			console.log(chart.data.category);
+
+			// Add and configure Series
+			var pieSeries = chart.series.push(new am4charts.PieSeries());
+			pieSeries.dataFields.value = "vipTen";
+			pieSeries.dataFields.category = "customerName";
+
+		}
+	})
 </script>
 </body>
 

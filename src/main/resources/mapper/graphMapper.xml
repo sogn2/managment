@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.booking.app.dao.GraphMapper">
+
+    <!--상위 10명 추출-->
+    <select id="vipCustomer" resultType="map" parameterType="map">
+        SELECT customerName,count(customerPhone)  as vipTen
+        FROM booking  a INNER JOIN customer  b
+        ON a.customerNumber = b.customerNumber2
+        WHERE companyNumber = 13 AND reservationDate LIKE concat('%',DATE_FORMAT(#{reservationDate},'%Y'),'%')
+        GROUP BY customerPhone
+        ORDER BY customerPhone ASC, reservationDate ASC
+        LIMIT 0, 10;
+    </select>
+
+</mapper>

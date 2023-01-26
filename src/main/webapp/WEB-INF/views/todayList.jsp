@@ -356,8 +356,8 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-1 text-gray-800">전체 예약 목록</h1>
-                <p class="mb-4">전체 예약 목록을 보여드립니다</p>
+                <h1 class="h3 mb-1 text-gray-800">당일 예약 목록</h1>
+                <p class="mb-4">당일 예약 목록을 보여드립니다</p>
                 <!-- Content Row -->
                 <div class="row">
 
@@ -418,18 +418,18 @@
                                     <ul class="pagination page_bar">
                                         <li class="page-item">
                                             <c:if test="${ph.showPrev}">
-                                                <a href="<c:url value='/list?page=${ph.beginPage-1}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' />" class="page-link">[이전]</a>
+                                                <a href="<c:url value='/today?page=${ph.beginPage-1}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' />" class="page-link">[이전]</a>
                                             </c:if>
                                         </li>
 
                                         <li class="page-item">
                                             <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
-                                            <a href="<c:url value='/list?page=${i}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' /> " class="page-link ${i==ph.page?"pageActive":""}"> ${i}</a>
+                                            <a href="<c:url value='/today?page=${i}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' /> " class="page-link ${i==ph.page?"pageActive":""}"> ${i}</a>
                                         </li>
                                         </c:forEach>
                                         <li class="page-item">
                                             <c:if test="${ph.showNext}">
-                                                <a href="<c:url value='/list?page=${ph.endPage+1}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' />" class="page-link">[다음]</a>
+                                                <a href="<c:url value='/today?page=${ph.endPage+1}&pageSize=${ph.pageSize}&customerName=${param.customerName}&customerPhone=${param.customerPhone}&reservationDate=${param.reservationDate}' />" class="page-link">[다음]</a>
                                             </c:if>
                                         </li>
 
@@ -455,7 +455,7 @@
                                     <div class="small mb-1">휴대폰번호</div>
                                     <input id="customerPhoneList" name="customerPhone" class="form-control mb-2" type="text" placeholder="010-0000-0000" />
                                     <div class="small mb-1">예약 일시</div>
-                                    <input id="reservationDateList" name="reservationDate" class="form-control mb-2" type="text" placeholder="2022-09-01 00:00" />
+                                    <input id="reservationDateList" name="reservationDate" class="form-control mb-2" type="text" placeholder="2023-01-26 00:00" />
                                     <div class="small mb-1">인원수</div>
                                     <input id="personnelList" name="personnel" class="form-control mb-2" type="text" placeholder="인원수" />
                                     <div class="small mb-1">요구사항</div>
@@ -593,7 +593,7 @@
     $(document).ready(function() {
         $('#btn_search').on("click", function(){
 
-            location.href = "<c:url value='/list'/>?page=1&pageSize=${pageSize}&customerName="+$('#customerName').val().trim()+"&customerPhone="+$('#customerPhone').val().trim()+"&reservationDate="+$('#reservationDate').val().trim();
+            location.href = "<c:url value='/today'/>?page=1&pageSize=${pageSize}&customerName="+$('#customerName').val().trim()+"&customerPhone="+$('#customerPhone').val().trim()+"&reservationDate="+$('#reservationDate').val().trim();
 
         })
 

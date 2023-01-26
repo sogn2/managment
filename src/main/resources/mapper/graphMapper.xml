@@ -12,7 +12,7 @@
         ON a.customerNumber = b.customerNumber2
         WHERE companyNumber = 13 AND reservationDate LIKE concat('%',DATE_FORMAT(#{reservationDate},'%Y'),'%')
         GROUP BY customerPhone
-        ORDER BY customerPhone ASC, reservationDate ASC
+        ORDER BY  count(customerPhone) DESC, reservationDate ASC
         LIMIT 0, 10;
     </select>
 
